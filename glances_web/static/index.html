@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>app</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ant-design-vue@1/dist/antd.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="stylesheet" href="./static/css/media.css">
+  <script src="http://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <a-spin :spinning="appLoading">
+  <div id='app'>
+    <a-layout id="components-layout-demo-top" class="layout">
+      <a-layout-header class="app_header">
+
+      </a-layout-header>
+      <a-layout-content class="content">
+        <a-row :gutter='[10,10]'>
+          <a-col :span='24'>
+            <span>系统信息</span>
+          </a-col>
+          <a-col :span='8' :xs='24' :md='8' :lg='8' class="col-xs">
+            <a-card style="width: 100%;height:100px">
+              <a-skeleton active :loading='skeleton' :paragraph="{ rows: 2 }" :title='false'>
+                <p>版本信息：</p>
+                <p >{{system.hr_name}}</p>
+              </a-skelton>
+            </a-card>
+          </a-col>
+          <a-col :span='8' :xs='24' :md='8' :lg='8' class="col-xs">
+            <a-card style="width: 100%;height:100px" >
+              <a-skeleton active :loading='!uptime' :paragraph="{ rows: 2 }" :title='false'>
+                <p>运行时间：</p>
+                <p>{{uptime}}</p>
+              </a-skelton>
+            </a-card>
+          </a-col>
+          <a-col :span='8' :xs='24' :md='8' :lg='8' class="col-xs">
+            <a-card style="width: 100%;height:100px" >
+              <a-skeleton active :loading='!systemTime' :paragraph="{ rows: 2 }" :title='false'>
+                <p>系统时间：</p>
+                <p>{{systemTime}}</p>
+              </a-skelton>
+            </a-card>
+          </a-col>
+        </a-row>
+        <a-row :gutter='[10,10]'>
+          <a-col :span='5' :xs='24' :md='12' :lg='12' class="col-xs">
+            <a-card title="CPU占用" style="width: 100%;height:100%">
+                <a-col style='text-align: center;' :span='10'>
+                  <a-skeleton active avatar :loading='!(cpu&&cpu.total)' :paragraph='false' :title='false' size='large'>
+                    <a-progress type="dashboard" :percent="cpu.total" style="margin:auto"/>
+                    <span>总使用率</span>
+                  </a-skelton>
+                </a-col>
+                <a-col style="text-align: left;" :span='13' :push='1'>
+                  <p>核心数：4</p>
+                  <div style='display: flex;'>
+                    <p>user：</p>
+                    <a-progress :percent="cpu.user" size="small" status="active" :stroke-color="active(cpu.user)"/>
+                  </div>
+                  <div style='display: flex;'>
+                    <p>system：</p>
+                    <a-progress :percent="cpu.system" size="small" status="active" :stroke-color="active(cpu.system)"/>
+                  </div>
+                  <div style='display: flex;'>
+                    <p>idle：</p>
+                    <a-progress :percent="cpu.idle" size="small" status="active" :stroke-color="active(cpu.idle)"/>
+                  </div>
+                </a-col>
+            </a-card>
+          </a-col>
+          <a-col :span='5' :xs='24' :md='12' :lg='12' class="col-xs">
+            <a-card title="内存使用" style="width: 100%;height:100%">
+                <a-col style='text-align: center;' :span='10'>
+                  <a-skeleton active avatar :loading='!(cpu&&cpu.total)' :paragraph='false' :title='false' size='large'>
+                    <a-progress type="dashboard" :percent="mem.percent" style="margin:auto"/>
+                    <span>总使用率</span>
+                  </a-skelton>
+                </a-col>
+                <a-col style="text-align: left;" :span='14' :push='1'>
+                  <a-skeleton active :loading='!mem' :paragraph="{ rows: 2 }" :title='false'>
+                    <p>总内存：{{(mem.total / 1024 / 1024 / 1024 ).toFixed(2)}} GB</p>
+                    <p>已使用：{{(mem.used / 1024 / 1024 ).toFixed(2)}} MB</p>
+                  </a-skelton>
+                </a-col>
+            </a-card>
+          </a-col>
+        </a-row>
+        <a-row :gutter='[10,10]'>
+          <a-col :span='8' :xs='24' :lg='12' class="col-xs" style="padding-right: 10px;">
+            <span>核心占用</span>
+            <m-cpu :info='2' :percpu='cpu.percpu'/>
+          </a-col>
+          <a-col :span='8' :xs='24' :lg='12' class="col-xs" style="padding-right: 10px;">
+            <span>文件使用</span>
+            <m-fs :fs-list='fs'/>
+          </a-col>
+        </a-row>
+      </a-layout-content>
+      <a-layout-footer class="app_footer" style="text-align: center">
+      </a-layout-footer>
+    </a-layout>
+  </div>
+  <template id='mcpu'>
+    <div>
+      <a-skeleton active :loading='!(percpu && percpu.length>0)' :paragraph="{ rows: 2 }" :paragraph='false' :title='false'>
+        <a-progress :percent="item.total" size="small" status="active" v-for="item in percpu" :key='item.cpu_number'/>
+      </a-skelton>
+    </div>
+  </template>
+  <template id='mfs'>
+    <div>
+      <a-skeleton active :loading='!(fsList && fsList.length>0)' :paragraph="{ rows: 2 }" :paragraph='false' :title='false'>
+        <a-progress :percent="item.percent" size="small" status="active" v-for="item in fsList" :key='item.mnt_point' :stroke-color="active(item.percent)"/>
+      </a-skelton>
+    </div>
+  </template>
+  <template id='skeleton'>
+    <div>
+      <a-skeleton active :loading='loading' :paragraph="{ rows: 2 }" :paragraph='false' :title='false'>
+        <slot>
+      </a-skelton>
+    </div>
+  </template>
+</a-spin>
+</body>
+
+</html>
+<script src="https://cdn.jsdelivr.net/npm/ant-design-vue@1/dist/antd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="./static/js/date.js"></script>
+<script src="./static/js/component/mcpu.js"></script>
+<script src="./static/js/component/mfs.js"></script>
+
+<script src="./static/js/index.js"></script>

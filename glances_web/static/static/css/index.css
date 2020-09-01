@@ -1,0 +1,15 @@
+.app_header{
+  display: none;
+}
+.content{
+  height: calc(100vh - 50px); 
+  padding:0 10px;
+  background-color: #fff;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.app_footer{
+  height: 50px;
+  padding: 0px 50px;
+  line-height: 50px;
+}

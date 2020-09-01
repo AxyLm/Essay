@@ -1,0 +1,9 @@
+{
+    "script": "../start.js",
+    "watch": [
+        "../static/*",
+        "../dist/*",
+        "./dist/*"
+    ],
+    "restartable": "rs"
+}
