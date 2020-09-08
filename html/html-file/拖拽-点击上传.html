@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zH">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提交</title>
+    <style>
+        #from {
+            /* width: 200px;
+            height: 80px; */
+            background: #e3e3e3;
+            border: 1px solid #fff;
+        }
+
+        #div {
+            width: 200px;
+            height: 80px;
+            background: #e3e3e3;
+            border: 1px solid #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <span>拖拽及点击上传</span>
+        <div id="output" style="min-height: 200px; white-space: pre; border: 1px solid black;"
+            ondragenter="document.getElementById('output').textContent = ''; event.stopPropagation(); event.preventDefault();"
+            ondragover="event.stopPropagation(); event.preventDefault();"
+            ondrop="event.stopPropagation(); event.preventDefault();dodrop(event);">
+            拖拽或者点选文件
+        </div>
+        <input type="file" id='files' style='display:none' />
+        <input type="button" value="查看" id='sea'>
+    </div>
+</body>
+
+</html>
+<script>
+    let div = document.getElementById("output")
+    let filei = document.getElementById("files")
+    let sea = document.getElementById("sea")
+    function dodrop(event) {
+        var dt = event.dataTransfer;
+        console.warn(dt.files)
+        output(dt.files);
+
+    }
+    sea.addEventListener('click',function(){
+        console.log(filei.files)
+        console.log(div.innerHTML)
+    })
+    function fileclick(){
+        document.getElementById("files").click()
+    }
+    div.addEventListener('click',function(){
+        document.getElementById("files").click()
+    })
+    filei.addEventListener('change',function(ev){    
+        output(filei.files);
+    })
+
+    function output(files) {
+        div.textContent = ''
+        var count = filei.files.length;
+        div.textContent += ("文件数: " + count + "\n")
+        filei.files =  files
+        for (var i = 0; i < files.length; i++) {
+            div.textContent += (" 文件 " + i + ':' + files[i].name + " " + files[i].size + "\n");
+        }
+    }
+</script>

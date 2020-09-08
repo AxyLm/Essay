@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+
+<body>
+	<div>
+		<!-- <form action="http://localhost:9999/file/upload" method="post" enctype="multipart/form-data"> -->
+		<input id='file' type="file" name="pic" />
+		<!-- </form> -->
+		<button type="submit" id='btn'>上传</button>
+		<button onclick="sel()">选择</button>
+		<button onclick="uploadFile()">start</button>
+
+
+		<progress id="progressBar" value="15" max="100"> </progress>
+	</div>
+</body>
+
+</html>
+<script src="./js/jquery.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+
+	function sel() {
+		$('#file').click()
+	}
+
+
+	$('#btn').click(function () {
+		var files = $('#file')[0]
+		if($('#file')[0].files.length <= 0){
+			alert('请选择files')
+			return
+		}
+		var data = new FormData();
+		data.append('scrpture', $('#file')[0].files[0]);
+
+		console.log($('#file')[0].files)
+		console.log(data);
+		//console.log($('#file')[0].files[0]);
+
+		// 		　　$.ajax({
+
+		// 　　　　"url": "http://192.168.1.103:9999/file/upload",
+
+		// 　　　　"type": "post",
+
+		// 　　　　"processData": false, // 将数据转换成对象，不对数据做处理，故 processData: false 
+
+		// 　　　　"contentType": false,    // 不设置数据类型
+
+		// 　　　　"xhrFields": {                // 这样在请求的时候会自动将浏览器中的cookie发送给后台
+
+		// 　　　　　　withCredentials: true
+
+		// 　　　　},
+
+		// 　　　　"data": data,
+
+		// 　　　　success: function(data) {
+
+		// 　　　　　　console.log(data)
+
+		// 　　　　},
+
+		// 　　　　error: function(data) {
+
+		// 　　　　}
+
+		// 　　})		
+
+
+		$.ajax({
+			'url': 'http://uniteapi.soulfree.cn/scripture/upload',
+			'type': 'post',
+			'xhrFields': {
+				withCredentials: false
+			},
+			'contentType': false,
+			'data': data,
+			"processData": false,
+			success: function (res) {
+				console.log(res)
+			},
+			error: function (err) {
+				console.log(err)
+			}
+		});
+	});
+
+	function uploadFile() {
+		var fileObj = document.getElementById("file").files[0]; // 获取文件对象  
+		var FileController = "http://uniteapi.soulfree.cn/scripture/upload"; // 接收上传文件的后台地址  
+
+		if (fileObj) {
+			console.log(fileObj);
+			// FormData 对象  
+			var form = new FormData();
+			form.append("pic", fileObj);// 文件对象     
+			// XMLHttpRequest 对象  
+			xhr = new XMLHttpRequest();
+			xhr.open("post", FileController, true);
+			xhr.onload = function () {
+				console.log(xhr.responseText);
+				var d = eval("(" + xhr.responseText + ")"); //把数据转成json  
+				//d.fileVal 后台返回的存储路径  
+				//存储到进度条（data-picUrl）自定的属性里
+				$("#progress").attr("data-picUrl", d.fileVal)
+			};
+			xhr.onerror = function () {
+				console.log("上传失败")
+			}; //请求失败
+			xhr.upload.onprogress = function (evt) {
+				if (evt.lengthComputable) {//
+					var progress = Math.round(evt.loaded / evt.total * 100) + "%";
+					$("#progress").css("width", progress);
+					$("#progress span").text(progress);
+				}
+			};
+			xhr.upload.onloadstart = function () {//上传开始执行方法
+				$("#fileName").text(fileObj.name);
+			};
+			xhr.send(form);
+		} else {
+			alert("未选择文件");
+		}
+	}
+</script>

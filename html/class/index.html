@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>pages</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+
+    </style>
+</head>
+<body>
+    <div>
+        <button id='catb'>cat</button>
+        <button id='dog'>dog</button>
+        <button id='fox'>fox</button>
+        <button id='print'>print</button>
+        <div id='ul'>
+
+        </div>
+    </div>
+</body>
+</html>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script src="./class.js"></script>
+<script>
+    let play = new Player(50)
+    // play.init()
+    // play.buyFox()
+    // console.log(
+    //     play.print()
+    // )
+    $('#catb').on('click',function(){
+        play.buyCat()
+    })
+    $('#dog').on('click',function(){
+        play.buyDog()
+    })
+    $('#fox').on('click',function(){
+        play.buyFox()
+    })
+    $('#print').on('click',function(){
+        play.print()
+
+        console.log(play)
+    })
+
+    $.each(play.AllNum,function(i,v){
+        $('#ul').append(`
+            <span>${i}</span>
+        `)
+    })
+</script>
