@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div style="height: 600px;width:300px;border:1px solid #e3e3e3" id='mousewheel'>
+
+    </div>
+
+    <div>
+        状态<span id='status'></span>
+    </div>
+    <div>
+        位置<span id='postion'></span>
+    </div>
+    <div>
+        时间<span id='scrollTime'></span>
+    </div>
+</body>
+</html>
+<script>
+    let scrollStatus, // 滚动状态
+        scrollPosition, // 位置
+        scrollTime = 50,
+        setIntervals
+
+    let div = document.getElementById('mousewheel')
+    let statusText = document.getElementById('status')
+    let postionText = document.getElementById('postion')
+    let scrollTimeText = document.getElementById('scrollTime')
+    div.addEventListener('mousewheel',function(e,d){
+        console.log(e,d)
+        scrollPosition = e.wheelDeltaY
+        postionText.innerText = (scrollPosition)
+        if(e.wheelDeltaY > 0){
+            scrollStatus = 0
+            statusText.innerText = ('上')
+        }else{
+            statusText.innerText = ('下')
+            scrollStatus = 1
+        }
+       
+        if(setIntervals){
+            scrollTime = scrollTime + 20
+            clearInterval(setIntervals)
+            setIntervals = 0
+            setIntervals = setInterval(()=>{
+                scrollTime--
+
+                scrollTimeText.innerText = scrollTime
+                if(scrollTime <= 0){
+                    clearInterval(setIntervals)
+                    setIntervals = 0
+
+                }
+            },1)
+        }else{
+            scrollTime = scrollTime + 50 
+            setIntervals = setInterval(()=>{
+                scrollTime--
+
+                scrollTimeText.innerText = scrollTime
+                if(scrollTime <= 0){
+                    clearInterval(setIntervals)
+                    setIntervals = 0
+                }
+            },1)
+        }
+        
+    })
+
+
+    function scroll(dom,height,type){
+
+    }
+</script>
