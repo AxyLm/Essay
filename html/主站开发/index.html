@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+		<title></title>
+		<style type="text/css">
+			.scroll-content{
+				overflow: auto;
+			}
+			.scroll-content::-webkit-scrollbar{
+				display: none;
+			}
+			.box{
+				width: 90%;
+				height: 300px;
+				border: 1px solid aqua;
+				margin:5px 0;
+				background: #00FFFF;
+				border-radius: 20px;
+				padding:50px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="scroll">
+			<div id="scroll-content">
+				<div class="box">1</div>
+				<div class="box right">2</div>
+				<div class="box">3</div>
+				<div class="box right">4</div>
+				<div class="box">5</div>
+				<div class="box right">6</div>
+				<div class="box">7</div>
+				<div class="box right">8</div>
+				<div class="box">9</div>
+				<div class="box punchline right">10</div>
+			</div>
+		</div>
+	</body>
+</html>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="./static/js/jquery-inertiaScroll.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://unpkg.com/scrollreveal"></script>
+<script type="text/javascript">
+	jQuery(function($) {
+		jQuery("#scroll-content").inertiaScroll({
+			parent: jQuery("#scroll")
+		});
+		
+	});
+	var scrollConfig = {
+		delay: 300 ,
+		distance: '300px',
+		scale:0.7,
+		interval: 16, 
+		reset: true ,
+		viewOffset: {
+			top: 0,
+			right: 0,
+			bottom: 0,
+			left: 0,
+		}
+	}
+	ScrollReveal().reveal('.box',{...scrollConfig,origin:'left'});
+	ScrollReveal().reveal('.right ',{...scrollConfig,origin:'top'});
+</script>
