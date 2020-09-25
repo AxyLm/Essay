@@ -3,8 +3,9 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-
-		<title></title>
+		<title>-浮生-</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+		<link rel="stylesheet" href="./static/style/index.css">
 		<style type="text/css">
 			.scroll-content{
 				overflow: auto;
@@ -43,26 +44,28 @@
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="./static/js/jquery-inertiaScroll.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://unpkg.com/scrollreveal"></script>
+<script src="./static/js/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 <script type="text/javascript">
-	jQuery(function($) {
-		jQuery("#scroll-content").inertiaScroll({
-			parent: jQuery("#scroll")
-		});
+	// jQuery(function($) {
+	// 	jQuery("#scroll-content").inertiaScroll({
+	// 		parent: jQuery("#scroll")
+	// 	});
 		
-	});
-	var scrollConfig = {
-		delay: 300 ,
-		distance: '300px',
-		scale:0.7,
-		interval: 16, 
-		reset: true ,
-		viewOffset: {
-			top: 0,
-			right: 0,
-			bottom: 0,
-			left: 0,
-		}
-	}
-	ScrollReveal().reveal('.box',{...scrollConfig,origin:'left'});
-	ScrollReveal().reveal('.right ',{...scrollConfig,origin:'top'});
+	// });
+	// var scrollConfig = {
+	// 	delay: 300 ,
+	// 	distance: '300px',
+	// 	scale:0.7,
+	// 	interval: 16, 
+	// 	reset: true ,
+	// 	viewOffset: {
+	// 		top: 0,
+	// 		right: 0,
+	// 		bottom: 0,
+	// 		left: 0,
+	// 	}
+	// }
+	// ScrollReveal().reveal('.box',{...scrollConfig,origin:'left'});
+	// ScrollReveal().reveal('.right ',{...scrollConfig,origin:'top'});
 </script>
