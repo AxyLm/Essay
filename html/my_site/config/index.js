@@ -14,5 +14,10 @@ module.exports = {
             chunk:'about',
             title:'关于'
         },
+        {
+            path:'src/me.html',
+            chunk:'me',
+            title:'我的'
+        },
     ]
 }

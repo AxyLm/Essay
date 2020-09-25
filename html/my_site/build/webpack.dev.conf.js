@@ -5,6 +5,7 @@ const config = require('../config')
 module.exports = merge(common, {
     mode:'development',
     devtool: 'inline-source-map',
+    stats:"normal",
     devServer: {
         contentBase: '../dist',
         inline: true,

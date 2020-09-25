@@ -5,6 +5,7 @@ const common = require('./webpack.config.js');
 
 module.exports = merge(common, {
     mode:'production',
+    stats:"minimal",
     plugins: [
         new UglifyJSPlugin(),
         new CleanWebpackPlugin({outputPath:'../dist'}),
