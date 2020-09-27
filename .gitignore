@@ -104,3 +104,6 @@ dist
 .tern-port
 
 */bingImg/*.jpg
+
+python/opencv/face/img/dlrb/
+python/opencv/face/img/out/
