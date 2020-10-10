@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			#box{
+				height:200px;
+				width:200px;
+				background: #C0C0C0;
+				position: absolute;
+			}
+			#pox{
+				height:40px;
+				width:200px;
+				background: black;
+				
+			}
+			#pos{
+				position: relative;
+				left:160px;
+				background: #FFA500;
+				height:40px;
+				width:40px;
+				font-weight: bold;
+				line-height: 40px;
+				text-align: center;
+				font-size: 12px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<div id="pox">
+				<p id="pos">BACK</p>
+			</div>
+		</div>
+		<script>
+//获取页面元素
+	let oBox = document.querySelector('#box');
+	let oDiv = document.querySelector('#pox p');
+	let arr = [];
+	oBox.onmousedown = function(evt){
+		let e = evt || window.event;
+		let target = e.target || e.srcElement;
+		//只有按下标题才会实现拖拽
+		if(target.id === 'pox'){
+			let disX = e.offsetX;
+			let disY = e.offsetY;
+			//记录初始坐标值
+			// console.log(disX);
+			arr.push({top:oBox.offsetTop,left:oBox.offsetLeft});
+			
+			document.onmousemove = function(evt){
+				let e = evt || window.event;
+				let left = e.pageX - disX;
+				
+				let top = e.pageY - disY;
+				
+				if(left < 0){
+					left = 0;
+				}else if(left >= document.documentElement.clientWith -oBox.offsetWidth){
+					left = document.documentElement.clientWith - oBox.offsetWidth;
+				}
+				if(top < 0){
+					top = 0;
+				}else if(top >= document.documentElement.clientHeight - oBox.offsetHeight){
+					top = document.documentElement.clientHeight - oBox.offsetHeight;
+				}
+				console.log(left,top);
+				oBox.style.left = left + 'px';
+				oBox.style.top = top + 'px';
+				//记录移动轨迹
+				arr.push({top:oBox.offsetTop,left:oBox.offsetLeft});
+			}
+			document.onmouseup = function(){
+				document.onmousemove = null;
+			}
+			document.ondragstart = function(){
+				return false;
+			}
+		}
+	}
+	oDiv.onclick = function(){
+		let index = arr.length - 1;
+		let timer = setInterval(function(){
+			oBox.style.left = arr[index].left + 'px';
+			oBox.style.top = arr[index --].top + 'px';
+			if(index === -1){
+				clearInterval(timer);
+				arr = []
+			}
+		},30)
+	}
+		</script>
+	</body>
+</html>
