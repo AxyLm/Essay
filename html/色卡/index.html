@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>马卡龙</title>
+    <style>
+        .sharp:before {
+            content: ""; 
+            width: 0px;
+            border-bottom: 80px solid transparent;
+            border-top: 80px solid transparent;
+            border-right: 40px solid #6c6;
+            position: absolute;
+            left: -40px;
+            top: 0px;
+        }
+
+        .sharp {
+            min-width: 100px;
+            height: 160px;
+            background: #6c6;
+            display: inline-block;
+            position: absolute;
+            line-height: 160px;
+            color: #FFFFFF;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .sharp:after {
+            content: "";   
+            width: 0px;
+            border-bottom: 80px solid transparent;
+            border-top: 80px solid transparent;
+            border-left-width: 40px;
+            border-left-style: solid;
+            border-left-color: #6c6;
+            position: absolute;
+            right: -40px;
+            top: 0px;
+        }
+
+        #sharpContainer {
+            width: 100%;
+            height: 600px;
+        }
+
+        #sharpContainer .center {
+
+            top: 200px;
+            left: 300px;
+        }
+
+        #sharpContainer .top {
+            top: 20px;
+            left: 300px;
+        }
+
+        #sharpContainer .top-left {
+            top: 110px;
+            left: 140px;
+        }
+
+        #sharpContainer .top-right {
+            top: 110px;
+            left: 460px;
+        }
+
+        #sharpContainer .bottom {
+            top: 380px;
+            left: 300px;
+        }
+
+        #sharpContainer .bottom-left {
+            top: 290px;
+            left: 140px;
+        }
+
+        #sharpContainer .bottom-right {
+            top: 290px;
+            left: 460px;
+        }
+    </style>
+    <style>
+        html,body{
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+    </style>
+    <style>
+        .colors{
+            min-width: 100px;
+            height: 100px;
+            display: inline-block;
+            text-align: center;
+            padding:0 10px;
+            overflow: hidden;
+            margin-right: 5px;
+        }
+        .colors p{
+            margin-top: 20px;
+        }
+        .colors .title{
+            opacity: 0;
+            font-size: 14px;
+            transition: all .1s ease-out;
+        }
+        .colors .code{
+            opacity: 0;
+            font-size: 13px;
+            transition: all .1s ease-out .1;
+        }
+        .colors:hover .title{
+            opacity: 1;
+            transition: ease-in .2s;
+        }
+        .colors:hover .code{
+            opacity: 1;
+            transition: ease-in .2s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='background'>
+        <div id="sharpContainer" style='display: none;'>
+            <div class="sharp center"></div>
+            <div class="sharp top"></div>
+            <div class="sharp top-left"></div>
+            <div class="sharp top-right"></div>
+            <div class="sharp bottom"></div>
+            <div class="sharp bottom-left"></div>
+            <div class="sharp bottom-right"></div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="../jquery.js"></script>
+<script>
+    /**
+    
+    https://blog.csdn.net/Ranger_AA/article/details/106478773
+    
+    */
+    $('#sharpContainer').hide()
+    let background = $('#background')
+    let colorList = [
+        {
+            title:'马卡龙草莓奶霜',
+            code:'#f1707d',
+        },
+        {
+            title:'马卡龙玫瑰粉红 ',
+            code:'#f15390',
+        },
+        {
+            title:'马卡龙基尔Anperiaru',
+            code:'#ef5767',
+        },
+        {
+            title:'大巧克力杏仁饼',
+            code:'#ae716e',
+        },
+        {
+            title:'巧克力马卡龙',
+            code:'#cb8e85',
+        },
+    ]
+
+    for (let i = 0; i < colorList.length; i++) {
+        const item = colorList[i];
+        let str = `<div class="colors" style='background-color:${item.code}'>
+        <p>
+            <span class='title'>${item.title}</span>
+            </br>
+            <span class='code'>${item.code}</span>
+        </p>
+        </div>`
+        background.append(str)
+    }
+    // $(`.colors`).hover(function(e){
+    //     console.log('hover',e)
+    //     setTimeout(()=>{
+    //     $(".colors span").fadeIn("slow");
+    //     },100)
+    // },function(e){
+    //     $(".colors span").fadeOut("slow");
+    // })
+    // $(`.colors`)[i].hover(function(){
+    //         
+    //     })
+    //     console.log( $(`.colors:nth-child(${[i]})`) )
+    //     $("p").fadeIn("slow");
+</script>
