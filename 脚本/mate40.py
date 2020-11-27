@@ -4,15 +4,6 @@ import time, json, os, threading
 
 from apscheduler.schedulers.blocking import BlockingScheduler
 from datetime import datetime
-# 输出时间
-def job():
-    print(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-# BlockingScheduler
-scheduler = BlockingScheduler()
-scheduler.add_job(job, 'cron', day_of_week='1-7', hour=10, minute=8)
-scheduler.start()
-
-
 
 class Vmall():
     def __init__(self):
@@ -71,36 +62,53 @@ class Vmall():
 
         self.selector = self.product_purchase
         print(f'账号:{name} 开始干活....目标按钮:{driver.find_element_by_css_selector(self.selector).text}')
-        while True:
-            #print('目标按钮:{driver.find_element_by_css_selector(self.selector).text}')
-            try:
-                driver.execute_script('rush.business.clickBtn()')
-            except:
-                break
-            time.sleep(0.1)
-        # 没买到过 后续判断等一个有缘人来写
-        input(f'账号:{name} 点击成功!是否抢到请自己看!\n')
-        driver.close()
+
+        # 执行立即申购方法
+        # BlockingScheduler
+        scheduler = BlockingScheduler()
+        scheduler.add_job(submit(), 'cron', day_of_week='1-7', hour=10, minute=8)
+        scheduler.start()
+
+        # while True:
+        #     #print('目标按钮:{driver.find_element_by_css_selector(self.selector).text}')
+        #     try:
+        #         driver.execute_script('rush.business.clickBtn()')
+        #     except:
+        #         break
+        #     time.sleep(0.1)
+        # # 没买到过 后续判断等一个有缘人来写
+        # input(f'账号:{name} 点击成功!是否抢到请自己看!\n')
+        # driver.close()
+
+    def startTime(self,name):
+        scheduler = BlockingScheduler()
+        scheduler.add_job(submit, 'cron', day_of_week='1-7', hour=10, minute=8)
+        scheduler.start()
+    
+    def submit(self,name):
+        print('time start')
 
 if __name__ == '__main__':
     print('本工具会自动拼命的点购买按钮 \n默认抢 华为 Mate40 Pro')
     hw = Vmall()
     while True:
-        key=input('选择功能: 1.增加账号 2.开始拼命抢购 \n')
-        if key=='1':
-            name = input('输入本次登录帐号的备注(请勿重复):\n')
-            hw.addLogin(name)
-        elif key=='2':
-            t=[]
-            for item in os.listdir(path='cookies', ):
-                # 多线程
-                if item.endswith('.json'):
-                    t.append(threading.Thread(target=hw.start,args=(item.split('.')[0],)))
-                    t[-1].setDaemon(True)
-                    t[-1].start()
-            for item in t:
-                item.join()
-            break
-        else:
-            print('输入有误或者已经退出!')
-            continue
+
+        hw.startTime('soulfree')
+        # key=input('选择功能: 1.增加账号 2.开始拼命抢购 \n')
+        # if key=='1':
+        #     name = input('输入本次登录帐号的备注(请勿重复):\n')
+        #     hw.addLogin(name)
+        # elif key=='2':
+        #     t=[]
+        #     for item in os.listdir(path='cookies', ):
+        #         # 多线程
+        #         if item.endswith('.json'):
+        #             t.append(threading.Thread(target=hw.start,args=(item.split('.')[0],)))
+        #             t[-1].setDaemon(True)
+        #             t[-1].start()
+        #     for item in t:
+        #         item.join()
+        #     break
+        # else:
+        #     print('输入有误或者已经退出!')
+        #     continue
