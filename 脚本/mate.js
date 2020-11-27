@@ -11,6 +11,10 @@ let href = window.location.href
  * 排队页    host: "sale.vmall.com"   https://sale.vmall.com/rush/m40pptcsx.html?mainSku=10086963883857&backUrl=https%3A%2F%2Fwww.vmall.com%2Fproduct%2F10086726905036.html%2310086963883857&_t=1606310536915
  *
  * https://sale.vmall.com/rush/m40pptcsx.html?mainSku=10086963883857&backUrl=https%3A%2F%2Fwww.vmall.com%2Fproduct%2F10086726905036.html%2310086963883857&_t=1606357412930
+ *
+ * 订单页    https://mbuy.vmall.com/wap_submit_order.html?nowTime=2020-11-27%2010:16:26&skuId=10086963883857&skuIds=10086963883857&activityId=860120201126564&isqueue=2&backUrl=https%3A%2F%2Fwww.vmall.com%2Fproduct%2F10086726905036.html%2310086963883857&backto=https%3A%2F%2Fwww.vmall.com%2Fproduct%2F10086726905036.html%2310086963883857&rushbuy_js_version=ea32341a-faed-4c58-9299-2858eed7f293
+ *
+ * ?nowTime=2020-11-27%2010:16:26&skuId=10086963883857&skuIds=10086963883857&activityId=860120201126564&isqueue=2&backUrl=https%3A%2F%2Fwww.vmall.com%2Fproduct%2F10086726905036.html%2310086963883857&backto=https%3A%2F%2Fwww.vmall.com%2Fproduct%2F10086726905036.html%2310086963883857&rushbuy_js_version=ea32341a-faed-4c58-9299-2858eed7f293
  */
 if( href == 'https://www.vmall.com/product/10086726905036.html' ){
 

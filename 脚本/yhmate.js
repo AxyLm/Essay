@@ -35,3 +35,8 @@ if (msObj.d) {
         console.log('alive->剩余时间=' + left / 1000)
     }, 1000);
 }
+
+if( window.location.pathname == 'wap_submit_order.html'){
+    // 订单页提交订单
+    sureSubmit();
+}
