@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>frp monit</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="./static/js/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div>
+        <!-- <ul class="list-group" id='list'> </ul> -->
+        <div class="panel panel-info">
+            <!-- Default panel contents -->
+            <div class="panel-heading">monit</div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>名称</th>
+                        <th>流量(Mb)</th>
+                        <th>状态</th>
+                    </tr>
+                </thead>
+                <tbody id='table_body'>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    // $.post('http://localhost:9233/monit/frpMonit',{
+    //     type:'http'
+    // },null,'json')
+    // .then((res)=>{
+    //     console.log(res)
+    // })
+
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:9233/monit/frpMonit",
+        data: JSON.stringify({type:'/http'}),
+        contentType:'application/json',
+        processData:false,
+        headers:{
+            'Content-Type' : 'application/json'
+        },
+        success: function(res){
+            if(res.code == 0){
+                editList(res.data.proxies)
+            }
+        }
+    });
+
+
+    function editList(arr){
+        for (let i = 0; i < arr.length; i++) {
+            const item = arr[i];
+            // let str = item.status == 'online'?'btn-success':'btn-danger'
+            // $('#list').append(`<li class="list-group-item">
+            //     <span>${item.name}</span>
+            //     <span class="btn btn-xs  ${str}">${item.status}</span>
+            //     </li>`)
+            let off = item.status == 'offline'
+            let tableStr = item.status == 'online'
+            $('#table_body').append(`<tr>
+                <td>${i+1}</td>
+                <td><span>${item.name}</span></td>
+                <td><span>${strMb(item.today_traffic_in)+'/'+strMb(item.today_traffic_out)}</span></td>
+                <td><span class=' ${tableStr?'bg-success':'bg-danger'}'>${item.status}</span></td></tr>`)
+        }
+    }
+
+    function strMb(str){
+        return ( str / 1024 / 1024 ).toFixed(2)
+    }
+</script>
