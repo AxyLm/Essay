@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!-- saved from url=(0054)https://www.swiper.com.cn/demo/91-vertical-nested.html -->
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <title>Swiper demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+  <!-- Link Swiper's CSS -->
+  <link rel="stylesheet" href="./Swiper demo_files/swiper.min.css">
+
+  <!-- Demo styles -->
+  <style>
+    html,
+    body {
+      position: relative;
+      height: 100%;
+    }
+
+    body {
+      background: #eee;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: #000;
+      margin: 0;
+      padding: 0;
+    }
+
+    .swiper-container {
+      width: 100%;
+      height: 100%;
+    }
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+
+      /* Center slide text vertically */
+      display: -webkit-box;
+      display: -ms-fslexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+    }
+
+    #swiper-container2 .swiper-slide {
+      font-size: 18px;
+      height: auto;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      display: block;
+      line-height: 100px;
+      background: #4390EE;
+      color: #fff;
+
+    }
+  </style>
+  <style class="mpa-style-fix ImageGatherer">
+    .FotorFrame {
+      position: fixed !important
+    }
+  </style>
+  <style class="mpa-style-fix SideFunctionPanel">
+    .weui-desktop-online-faq__wrp {
+      top: 304px !important;
+      bottom: unset !important
+    }
+
+    .weui-desktop-online-faq__wrp .weui-desktop-online-faq__switch {
+      width: 38px !important
+    }
+  </style>
+</head>
+
+<body mpa-version="7.16.1" mpa-extension-id="ibefaeehajgcpooopoegkifhgecigeeg" cz-shortcut-listen="true">
+  <!-- Swiper -->
+  <div class="swiper-container swiper-container-initialized swiper-container-vertical" id="swiper-container1">
+    <div class="swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(0px, -977px, 0px);">
+      <div class="swiper-slide swiper-slide-prev" style="height: 977px;">Slide 1</div>
+      <div class="swiper-slide swiper-slide-active" style="height: 977px;">
+
+        <div class="swiper-container swiper-container-initialized swiper-container-vertical swiper-container-free-mode"
+          id="swiper-container2">
+          <div class="swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);">
+            <div class="swiper-slide swiper-slide-active">
+              <h4>一段很长的内容</h4>
+              <p style="opacity:0.99;">一<br>段<br>很<br>长<br>的<br>内<br>容</p>
+              <p style="opacity:0.98;">一<br>段<br>很<br>长<br>的<br>内<br>容</p>
+              <p style="opacity:0.97;">一<br>段<br>很<br>长<br>的<br>内<br>容</p>
+            </div>
+          </div>
+          <div class="swiper-scrollbar">
+            <div class="swiper-scrollbar-drag"
+              style="transform: translate3d(0px, 0px, 0px); height: 406.185px; transition-duration: 0ms;"></div>
+          </div>
+          <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+        </div>
+      </div>
+      <div class="swiper-slide swiper-slide-next" style="height: 977px;">Slide 3</div>
+      <div class="swiper-slide" style="height: 977px;">Slide 4</div>
+      <div class="swiper-slide" style="height: 977px;">Slide 5</div>
+    </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets"><span
+        class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 1"></span><span
+        class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button"
+        aria-label="Go to slide 2"></span><span class="swiper-pagination-bullet" tabindex="0" role="button"
+        aria-label="Go to slide 3"></span><span class="swiper-pagination-bullet" tabindex="0" role="button"
+        aria-label="Go to slide 4"></span><span class="swiper-pagination-bullet" tabindex="0" role="button"
+        aria-label="Go to slide 5"></span></div>
+    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+  </div>
+
+  <!-- Swiper JS -->
+  <script src="./Swiper demo_files/swiper.min.js.下载"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+    window.onload = function () {
+      var mySwiper1 = new Swiper('#swiper-container1', {
+        direction: 'vertical',
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+      });
+      var mySwiper2 = new Swiper('#swiper-container2', {//子swiper
+        direction: 'vertical',
+        nested: true,
+        //resistanceRatio: 0,
+        slidesPerView: 'auto',
+        freeMode: true,
+        scrollbar: {
+          el: '.swiper-scrollbar',
+        },
+      })
+    }
+	//opacity清除内容重叠bug
+  </script>
+
+
+  <div class="mpa-sc mpa-plugin-article-gatherer mpa-new mpa-rootsc" data-z="100" style="display: block;"
+    id="mpa-rootsc-article-gatherer"></div>
+  <div class="mpa-sc mpa-plugin-image-gatherer mpa-new mpa-rootsc" data-z="100" style="display: block;"
+    id="mpa-rootsc-image-gatherer"></div>
+  <div class="mpa-sc mpa-plugin-page-clipper mpa-new mpa-rootsc" data-z="100" style="display: block;"
+    id="mpa-rootsc-page-clipper"></div>
+  <div class="mpa-sc mpa-plugin-text-gatherer mpa-new mpa-rootsc" data-z="100" style="display: block;"
+    id="mpa-rootsc-text-gatherer"></div>
+  <div class="mpa-sc mpa-plugin-video-gatherer mpa-new mpa-rootsc" data-z="100" style="display: block;"
+    id="mpa-rootsc-video-gatherer"></div>
+  <div class="mpa-sc mpa-plugin-side-function-panel mpa-new mpa-rootsc" data-z="110" style="display: block;"
+    id="mpa-rootsc-side-function-panel"></div>
+  <div class="mpa-sc mpa-plugin-notifier mpa-new mpa-rootsc" data-z="120" style="display: block;"
+    id="mpa-rootsc-notifier"></div>
+  <div class="mpa-sc mpa-plugin-notification-manager mpa-new mpa-rootsc" data-z="130" style="display: block;"
+    id="mpa-rootsc-notification-manager"></div>
+</body>
+
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!-- saved from url=(0056)https://www.swiper.com.cn/demo/animate/animate.base.html -->
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <title>Swiper中文网基础演示(www.swiper.com.cn)</title>
+  <link href="./Swiper中文网基础演示(www.swiper.com.cn)_files/swiper.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="./Swiper中文网基础演示(www.swiper.com.cn)_files/animate.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .blue-slide {
+      background: #4390EE;
+    }
+
+    .red-slide {
+      background: #CA4040;
+    }
+
+    .orange-slide {
+      background: #FF8604;
+    }
+
+    .swiper-slide {
+      line-height: 300px;
+      color: #fff;
+      font-size: 36px;
+      text-align: center;
+    }
+  </style>
+  <style class="mpa-style-fix ImageGatherer">
+    .FotorFrame {
+      position: fixed !important
+    }
+  </style>
+  <style class="mpa-style-fix SideFunctionPanel">
+    .weui-desktop-online-faq__wrp {
+      top: 304px !important;
+      bottom: unset !important
+    }
+
+    .weui-desktop-online-faq__wrp .weui-desktop-online-faq__switch {
+      width: 38px !important
+    }
+  </style>
+</head>
+
+<body mpa-version="7.16.1" mpa-extension-id="ibefaeehajgcpooopoegkifhgecigeeg" cz-shortcut-listen="true">
+  <div class="swiper-container swiper-container-initialized swiper-container-horizontal">
+    <div class="swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(-1306px, 0px, 0px);">
+      <div class="swiper-slide blue-slide swiper-slide-prev" style="width: 1306px;">
+        <p class="ani     " swiper-animate-effect="fadeInUp" swiper-animate-duration="0.5s" swiper-animate-delay="0.3s"
+          swiper-animate-style-cache=" " style="visibility: hidden;">从下往上出现的内容</p>
+      </div>
+      <div class="swiper-slide red-slide swiper-slide-active" style="width: 1306px;">
+        <p class="ani  bounceInLeft animated" swiper-animate-effect="bounceInLeft" swiper-animate-duration="0.5s"
+          swiper-animate-delay="0.3s" swiper-animate-style-cache=" "
+          style="visibility: visible;animation-duration:0.5s;-webkit-animation-duration:0.5s;animation-delay:0.3s;-webkit-animation-delay:0.3s;">
+          从左至右出现的内容</p>
+      </div>
+      <div class="swiper-slide orange-slide swiper-slide-next" style="width: 1306px;">
+        <p class="ani" swiper-animate-effect="shake" swiper-animate-duration="1.5s" swiper-animate-delay="0s"
+          swiper-animate-style-cache=" " style="visibility: hidden;">左右摇晃的内容</p>
+      </div>
+    </div>
+    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+  </div>
+  <script src="./Swiper中文网基础演示(www.swiper.com.cn)_files/swiper.min.js.下载"></script>
+  <script src="./Swiper中文网基础演示(www.swiper.com.cn)_files/swiper.animate.min.js.下载"></script>
+  <script type="text/javascript">
+    var mySwiper = new Swiper('.swiper-container', {
+      on: {
+        init: function () {
+          swiperAnimateCache(this); //隐藏动画元素 
+          swiperAnimate(this); //初始化完成开始动画
+        },
+        slideChangeTransitionEnd: function () {
+          swiperAnimate(this); //每个slide切换结束时也运行当前slide动画
+        }
+      }
+    });
+  </script>
+
+
+  <div class="mpa-sc mpa-plugin-article-gatherer mpa-new mpa-rootsc" data-z="100" style="display: block;"
+    id="mpa-rootsc-article-gatherer"></div>
+  <div class="mpa-sc mpa-plugin-image-gatherer mpa-new mpa-rootsc" data-z="100" style="display: block;"
+    id="mpa-rootsc-image-gatherer"></div>
+  <div class="mpa-sc mpa-plugin-page-clipper mpa-new mpa-rootsc" data-z="100" style="display: block;"
+    id="mpa-rootsc-page-clipper"></div>
+  <div class="mpa-sc mpa-plugin-text-gatherer mpa-new mpa-rootsc" data-z="100" style="display: block;"
+    id="mpa-rootsc-text-gatherer"></div>
+  <div class="mpa-sc mpa-plugin-video-gatherer mpa-new mpa-rootsc" data-z="100" style="display: block;"
+    id="mpa-rootsc-video-gatherer"></div>
+  <div class="mpa-sc mpa-plugin-side-function-panel mpa-new mpa-rootsc" data-z="110" style="display: block;"
+    id="mpa-rootsc-side-function-panel"></div>
+  <div class="mpa-sc mpa-plugin-notifier mpa-new mpa-rootsc" data-z="120" style="display: block;"
+    id="mpa-rootsc-notifier"></div>
+  <div class="mpa-sc mpa-plugin-notification-manager mpa-new mpa-rootsc" data-z="130" style="display: block;"
+    id="mpa-rootsc-notification-manager"></div>
+</body>
+
+</html>
