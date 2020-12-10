@@ -4,8 +4,7 @@ console.show()
 device.keepScreenDim()
 
 app.launchApp('华为商城')
-// app.startActivity("com.vmall.client.product.fragment.ProductDetailActivity")
-app.openUrl('https://m.vmall.com/product/10086726905036.html#10086963883857')
+app.openUrl('https://m.vmall.com/product/10086726905036.html#10086963883857') // mate40 pro 白 256
 var datas = new Date()
 var msObj = {
     h:10,
@@ -14,7 +13,10 @@ var msObj = {
     netms: 20,
     nIntervId: 0
 }
-toast('倒计时')
+toast('倒计时开始')
+var timeShow = setInterval(() => {
+    console.log((new Date()).getSeconds())
+}, 1000);
 // 阻断
 while (true) {
     var myDate = new Date();
@@ -32,27 +34,26 @@ while (true) {
         }
     }
 }
+sleep(15)
 toast('开始点击')
-while(!click("立即申购")){
-    break
+startBuy()
+var findViewTime
+function startBuy(){
+    findViewTime = setInterval(() => {
+        if( text("提交订单").find().nonEmpty() ){
+            clearInterval(findViewTime)
+            text("提交订单").findOne().click()
+            startBuy()
+        }else if(text("退出排队").find().nonEmpty()){
+            setTimeout(() => {
+                clearInterval(findViewTime)
+                back()
+                startBuy()
+            }, 5000);
+        }else if( text("立即申购").find().nonEmpty() ){
+            clearInterval(findViewTime)
+            text("立即申购").findOne().click()
+            startBuy()
+        }
+    }, 20);
 }
-setInterval(() => {
-    click("提交订单")
-}, 100);
-setTimeout(() => {
-    back()
-}, 5 * 1000);
-// msObj.nIntervId = setInterval(function () {
-//     console.log(msObj.d)
-//     console.log(new Date(msObj.d).getTime())
-//     // var left = msObj.d.getTime() - Date.now() - msObj.netms
-//     // if (left < 1000) {
-
-//     // }
-//     // console.log(left)
-//     // if (left < 0) {
-//     //     clearInterval(msObj.nIntervId);
-//     //     console.log("时间到 开始抢购" + Date.now())
-//     //     rush.business.clickBtn()
-//     // }
-// }, msObj.delay);
