@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>获取win10锁屏壁纸</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+</head>
+
+<body style="background: white;">
+    <h1>Hello World!</h1>
+    <p>
+        We are using node
+        <script>document.write(process.versions.node)</script>,
+        Chrome
+        <script>document.write(process.versions.chrome)</script>,
+        and Electron
+        <script>document.write(process.versions.electron)</script>.
+    </p>
+
+    <button id='button'>获取图片</button>
+
+
+    <input type="file" id="file_input" webkitdirectory directory />
+</body>
+
+</html>
+
+<script type="text/javascript">
+    try {
+        document.querySelector('#file_input').addEventListener('change', e => {
+            for (let entry of e.target.files) {
+                console.log(entry.name, entry.webkitRelativePath);
+            }
+        });
+
+        const fs = require("fs")
+        const dirs = "C:/Users/thelm/AppData/Local/Packages/Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy/LocalState/Assets"
+        const outDir = "C:/Users/thelm/Pictures"
+        var list = fs.readdirSync(dirs)
+
+        console.log(list, 1)
+        function outFile(list, index) {
+            let file = fs.readFileSync(dirs + "/" + list[index])
+            fs.writeFile(outDir + "/" + list[index] + ".jpg", file, (err) => {
+                if (err) {
+                    console.log(err)
+                } else if (list[index + 1]) {
+                    outFile(list, index + 1)
+                } else {
+                    console.log("The end")
+                }
+            });
+
+        }
+        function outImg() {
+            console.log(1)
+            outFile(list, 0)
+        }
+
+        document.getElementById('button').onclick = function () {
+            outImg()
+        }
+    } catch (error) {
+        console.log(error)
+    }
+</script>
