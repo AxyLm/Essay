@@ -1,40 +1,62 @@
-#!/usr/bin/python2
-#coding:utf8
-#自动风扇控制程序，使用wiringPi的gpio命令来操作GPIO
-import commands,time
+import time
 import RPi.GPIO as GPIO
-#控制风扇的GPIO
 
-FAN_GPIO = 14
-GPIO.setmode(GPIO.BCM)     
+FAN_GPIO = 14  # 针脚 博客上边有针脚图
+SLEEP_TIME = 60  # 每60秒检测温度并修改一次频率
+mode = "mute"  # 模式
+
+GPIO.setmode(GPIO.BCM)
 GPIO.setup(FAN_GPIO, GPIO.OUT)
-p = GPIO.PWM(FAN_GPIO, 133) #通道为 11 频率为 128Hz
-p.start(100) # 启动pwm
+p = GPIO.PWM(FAN_GPIO, 331)
+p.start(50)
+
+# temp 温度
+# normal 默认 pwm频率
+# mute  静音
+arr = [
+    {
+        "temp": 50,
+        "normal": 100,
+        "mute": 30
+    },
+    {
+        "temp": 48,
+        "normal": 90,
+        "mute": 30
+    },
+    {
+        "temp": 45,
+        "normal": 70,
+        "mute": 30
+    },
+    {
+        "temp": 40,
+        "normal": 40,
+        "mute": 30
+    }
+]
+# 注：pwm 范围为0 - 100 值越大转的越快 反之则越慢
 
 while True:
-     # 获取CPU温度
-    tmpFile = open( '/sys/class/thermal/thermal_zone0/temp' )
+    # 获取CPU温度
+    tmpFile = open('/sys/class/thermal/thermal_zone0/temp')
     cpu_temp_raw = tmpFile.read()
     tmpFile.close()
-    cpu_temp = round(float(cpu_temp_raw)/1000, 1)
-    print cpu_temp,FAN_GPIO
- 
-    
-    if cpu_temp >= 50 :
-            p.ChangeDutyCycle(1)
-            time.sleep(20)
-    if 49 <= cpu_temp < 50 :
-            p.ChangeDutyCycle(10)
-            time.sleep(10)
-    if 48 <= cpu_temp < 49 :
-            p.ChangeDutyCycle(20)
-            time.sleep(10)
-    if 47 <= cpu_temp < 48 :
-            p.ChangeDutyCycle(30)
-            time.sleep(10)
-    if 46 <= cpu_temp < 47 :
-            p.ChangeDutyCycle(40)
-            time.sleep(5)
-    if cpu_temp < 46 :
-            p.ChangeDutyCycle(50)
-    time.sleep(5)
+    cpu_temp = round(float(cpu_temp_raw) / 1000, 1)
+    t = cpu_temp
+
+    # 取时间 修改模式 20:00 - 2:00 为静音模式
+    n = time.asctime(time.localtime(time.time()))  # 当前时间
+    nowHour = int(time.strftime("%H", time.localtime()))  # 当前小时
+
+    if nowHour >= 20 or nowHour <= 2:
+        mode = "mute"
+    else:
+        mode = "normal"
+
+    for item in arr:
+        if t >= item["temp"]:
+            p.ChangeDutyCycle(item[mode])
+            print(item[mode], t, mode, n)
+            time.sleep(SLEEP_TIME)
+            break
