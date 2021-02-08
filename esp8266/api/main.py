@@ -3,6 +3,15 @@ from machine import Pin
 from re import search
 
 
+def show_led(url):
+    from machine import I2C
+    i2c=machine.I2C(-1, sda=machine.Pin(9), scl=machine.Pin(10), freq=400000)  
+    
+    from ssd1306 import SSD1306_I2C
+    oled = SSD1306_I2C(128, 64, i2c)
+    oled.text("Hello " + url, 0, 0)
+    oled.show()
+
 def do_connect():
     import network
     sta_if = network.WLAN(network.STA_IF)
@@ -18,7 +27,7 @@ def do_connect():
     print('network config:', sta_if.ifconfig())
     return sta_if
 
-
+show_led('soulfree')
 html = """
 <p/>hello world</>
 
@@ -54,6 +63,7 @@ while True:
             conn.send("Content-Type: text/html;charset=UTF-8\r\n")
             conn.send("Connection: close\r\n")
             conn.send("\r\n")
+            show_led(url)
             if url == '/led1':
                 led2.on()
             elif url == '/led2':

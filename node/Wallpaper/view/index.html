@@ -17,7 +17,7 @@
         and Electron
         <script>document.write(process.versions.electron)</script>.
     </p>
-
+	<p id='fileOutPath'></p>
     <button id='button'>获取图片</button>
 
 
@@ -29,6 +29,7 @@
 <script type="text/javascript">
     try {
         document.querySelector('#file_input').addEventListener('change', e => {
+			let outPath = e.target.files[0]
             for (let entry of e.target.files) {
                 console.log(entry.name, entry.webkitRelativePath);
             }
@@ -36,7 +37,7 @@
 
         const fs = require("fs")
         const dirs = "C:/Users/thelm/AppData/Local/Packages/Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy/LocalState/Assets"
-        const outDir = "C:/Users/thelm/Pictures"
+        const outDir = "C:/Users/thelm/Pictures/wallpaper"
         var list = fs.readdirSync(dirs)
 
         console.log(list, 1)
@@ -53,6 +54,7 @@
             });
 
         }
+		outImg()
         function outImg() {
             console.log(1)
             outFile(list, 0)
