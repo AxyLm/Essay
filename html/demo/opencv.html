@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <video  width="640" height="480" id="video" style=""></video>
+    <canvas width="640" height="480" id="outputCanvas"></canvas>
+
+</body>
+
+</html>
+<script src="./static/opencv.js"></script>
+<!-- <script>
+
+    var opt = {
+        audio: true,
+        video: {
+            width: 375,
+            height: 603
+        }
+    };
+    navigator.mediaDevices.getUserMedia(opt)
+        .then(function (mediaStream) {
+            var video = document.querySelector('video');
+            video.srcObject = mediaStream;
+            video.onloadedmetadata = function (e) {
+                video.play();
+            };
+        })
+        .catch(function (err) {
+            console.log(err.name + ": " + err.message);
+        }); // always check for errors at the end.
+
+    // 创建VideoCapture
+    let cap = new cv.VideoCapture(video);
+    // // 创建存放图像的Mat
+    // let src = new cv.Mat("480", "640", cv.CV_8UC4);
+    // // 读一帧图像
+    // cap.read(src);
+</script> -->
+
+<script>
+    console.log(cv)
+    let videoHeight = 480
+let videoWidth = 640
+let outputCanvas = document.getElementById("outputCanvas");
+
+let cap = null
+let faceCascade = null;
+let src = null;
+let gray = null;
+
+function run() {
+
+    faceCascade = new cv.CascadeClassifier();
+    faceCascade.load("face.xml")
+
+    cap = new cv.VideoCapture(video)
+    src = new cv.Mat(videoHeight, videoWidth, cv.CV_8UC4);
+    gray = new cv.Mat(videoHeight, videoWidth, cv.CV_8UC1);
+
+        requestAnimationFrame(detectFace)
+}
+
+function startCamera() {
+    let video = document.getElementById("video")
+    navigator.mediaDevices.getUserMedia({
+        video: {
+            width: {
+                exact: videoWidth
+            },
+            height: {
+                exact: videoHeight
+            }
+        },
+        audio: false
+    }).then(function (stream) {
+        console.log("video suc")
+        video.srcObject = stream;
+        video.play();
+        run()
+    })
+}
+
+function detectFace() {
+    // Capture a frame
+    cap.read(src)
+
+    // Convert to greyscale
+    cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
+
+
+    // Downsample
+    let downSampled = new cv.Mat();
+    cv.pyrDown(gray, downSampled);
+    cv.pyrDown(downSampled, downSampled);
+
+    // Detect faces
+    let faces = new cv.RectVector();
+    faceCascade.detectMultiScale(downSampled, faces)
+
+    // Draw boxes
+    let size = downSampled.size();
+    let xRatio = videoWidth / size.width;
+    let yRatio = videoHeight / size.height;
+    for (let i = 0; i < faces.size(); ++i) {
+        let face = faces.get(i);
+        let point1 = new cv.Point(face.x * xRatio, face.y * yRatio);
+        let point2 = new cv.Point((face.x + face.width) * xRatio, (face.y + face.height) * xRatio);
+        cv.rectangle(src, point1, point2, [255, 0, 0, 255])
+    }
+    // Free memory
+    downSampled.delete()
+    faces.delete()
+
+    // Show image
+    cv.imshow(outputCanvas, src)
+
+    requestAnimationFrame(detectFace)
+}
+
+// Config OpenCV
+var Module = {
+    locateFile: function (name) {
+        let files = {
+            "opencv_js.wasm": './static/opencv_js.wasm'
+        }
+        return files[name]
+    },
+    preRun: [() => {
+        Module.FS_createPreloadedFile("/", "face.xml", "model/haarcascade_frontalface_default.xml",
+            true, false);
+    }],
+    postRun: [
+        startCamera()
+    ]
+};
+</script>
