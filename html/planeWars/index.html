@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>plane wars</title>
+    <style>
+        body,div{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            height: 100%;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
+        #body{
+            width: 400px;
+            height: 100%;
+            max-width: 95%;
+            max-height: 95%;
+            border-radius: 5px;
+            border: 1px solid #e3e3e3;
+            position: relative;
+        }
+
+        #plan_our{
+            width:50px;
+            height:50px;
+            background-color: aqua;
+            position: absolute;
+            bottom: 10%;
+            left:calc(50% - 25px);
+        }
+
+        .bullet{
+            width: 3px;
+            height: 8px;
+            border-radius: 2px;
+            position: absolute;
+            top:10px;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="body">
+
+        <div class="plans_adv">
+
+        </div>
+
+
+        <div class="bullet"></div>
+        <div id="plan_our"></div>
+    </div>
+</body>
+</html>
+<script>
+
+
+
+setInterval(() => {
+    var plan = document.getElementById("plan_our")
+    new Bullet().init(plan.offsetLeft + 24,plan.offsetTop).move()
+}, 500);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function Bullet(){
+    this.body = document.createElement("div");
+    this.init = function(left,top){
+        if(typeof left != "number" || typeof top != "number"){
+            return false
+        }
+        this.top(top);
+        this.left(left);
+        this.body.classList.add("bullet")
+        document.getElementById("body").append(this.body)
+        return this
+    }
+    this.move = function(){
+        this.timeer = setInterval(function()  {
+            this.top(  this.top() - 3 )
+            if(  this.top() >= document.getElementById("body").offsetHeight || this.top() <= 0 ){
+                this.remove()
+            }
+        }.bind(this), 30);
+    }
+    this.remove = function(){
+        clearInterval( this.timmer )
+        this.body.remove()
+    }
+    this.left = function(val){
+		if( val || val == 0 ){
+			this.body.style.left = val + "px";
+		}
+		return this.body.offsetLeft;
+	}
+	this.top = function(val){
+		if( val || val == 0 ){
+			this.body.style.top = val + "px";
+		}
+		return this.body.offsetTop;
+	}
+}
+
+
+// new Bullet().init(10,10).move()
+</script>
