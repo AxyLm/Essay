@@ -64,27 +64,6 @@
 </body>
 </html>
 <script>
-
-
-
-setInterval(() => {
-    var plan = document.getElementById("plan_our")
-    new Bullet().init(plan.offsetLeft + 24,plan.offsetTop).move()
-}, 500);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function Bullet(){
     this.body = document.createElement("div");
     this.init = function(left,top){
@@ -97,32 +76,38 @@ function Bullet(){
         document.getElementById("body").append(this.body)
         return this
     }
-    this.move = function(){
-        this.timeer = setInterval(function()  {
-            this.top(  this.top() - 3 )
-            if(  this.top() >= document.getElementById("body").offsetHeight || this.top() <= 0 ){
-                this.remove()
-            }
-        }.bind(this), 30);
+}
+// 公共功能 放在prototype 可减少内存开销
+Bullet.prototype.move = function(){
+    this.timeer = setInterval(function()  {
+        this.top(  this.top() - 3 )
+        if(  this.top() >= document.getElementById("body").offsetHeight || this.top() <= 0 ){
+            this.remove()
+        }
+    }.bind(this), 30);
+}
+Bullet.prototype.remove = function(){
+    clearInterval( this.timmer )
+    this.body.remove()
+}
+Bullet.prototype.left = function(val){
+    if( val || val == 0 ){
+        this.body.style.left = val + "px";
     }
-    this.remove = function(){
-        clearInterval( this.timmer )
-        this.body.remove()
+    return this.body.offsetLeft;
+}
+
+Bullet.prototype.top = function(val){
+    if( val || val == 0 ){
+        this.body.style.top = val + "px";
     }
-    this.left = function(val){
-		if( val || val == 0 ){
-			this.body.style.left = val + "px";
-		}
-		return this.body.offsetLeft;
-	}
-	this.top = function(val){
-		if( val || val == 0 ){
-			this.body.style.top = val + "px";
-		}
-		return this.body.offsetTop;
-	}
+    return this.body.offsetTop;
 }
 
 
+setInterval(() => {
+    var plan = document.getElementById("plan_our")
+    new Bullet().init(plan.offsetLeft + 24,plan.offsetTop).move()
+}, 500);
 // new Bullet().init(10,10).move()
 </script>
