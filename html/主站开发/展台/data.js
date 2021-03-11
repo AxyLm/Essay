@@ -20,8 +20,13 @@ var listData = [
         "url":"https://my.soulfree.cn/4/"
     },
     {
-        "title":"我的博客",
-        "description":"",
-        "url":"https://www.soulfree.cn"
+        "title": "我的博客",
+        "description": "",
+        "url": "https://www.soulfree.cn"
     },
+    {
+        "title": "百度2021校招地址",
+        "description": "",
+        "url": "https://talent.baidu.com/external/baidu/campus.html#/jobList/0-1227-10002"
+    }
 ]
