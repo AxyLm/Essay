@@ -1,3 +1,21 @@
+:root {
+    --main-bg: #4ecbd4;
+    --shadow-1: #57e3ed;
+    --shadow-2: #45b3bb;
+    --text-color: #fff;
+    background: var(--main-bg);
+    color: var(--text-color);
+}
+
+html, body {
+    background-color: var(--main-bg);
+    overflow: hidden;
+}
+
+* {
+    transition: all 0.3s ease;
+}
+
 header {
     height: 40px;
     line-height: 40px;
@@ -8,6 +26,7 @@ header {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    min-width: 200px;
 }
 
 .content {
@@ -24,27 +43,32 @@ header {
 
 .Card {
     background-color: #4ecbd4;
-    box-shadow: 3px 3px 6px #45b3bb, -3px -3px 6px #57e3ed;
+    box-shadow: 3px 3px 6px var(--shadow-2), -3px -3px 6px var(--shadow-1);
+    transition: box-shadow 1s ease-out;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .ant-card-meta-title {
-    color: #fff;
+    color: var(--text-color);
 }
 
 .Card:hover {
-    background-color: #4ecbd4;
-    box-shadow: inset 3px 3px 6px #45b3bb, inset -3px -3px 6px #57e3ed;
+    animation: boxShadowHover 0.2s ease-in;
+    background-color: var(--main-bg);
+    box-shadow: inset 3px 3px 6px var(--shadow-2), inset -3px -3px 6px var(--shadow-1);
 }
 
 .title_text {
-    /* animation: fontAni 2s cubic-bezier(0.05, 0, 0.2, 1) infinite alternate; */
+    color: var(--text-color);
     animation: fontAni 3s ease-in-out infinite alternate;
     display: inline-block;
     font-size: 24px;
     font-family: Microsoft JhengHei, PingFang SC;
     transform: translate3d(0, 0, 0);
-    border-bottom: 1px solid #fff;
-    /* text-shadow: red 0 0 1px; */
+    border-bottom: 1px solid var(--text-color);
 }
 
 .title_text:nth-child(1) {
@@ -92,5 +116,17 @@ header {
     }
     100% {
         transform: translate3d(0, 4px, 0);
+    }
+}
+
+@keyframes boxShadowHover {
+    0% {
+        box-shadow: 3px 3px 6px var(--shadow-2), -3px -3px 6px var(--shadow-1);
+    }
+    50% {
+        box-shadow: 0px 0px 0px #45b0bb, -0px -0px 0px var(--shadow-1);
+    }
+    100% {
+        box-shadow: inset 3px 3px 6px var(--shadow-2), inset -3px -3px 6px var(--shadow-1);
     }
 }

@@ -5,15 +5,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta name="keywords" content="生成随机密码,拟态玻璃,时钟,博客">
+    <meta name="description" content="一个拟态化的站点">
+    <meta http-equiv="Window-target" content="_top">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta name="robots" content="all">
+    <meta name="author" content="ganlin">
+    <meta http-equiv="expires" content="0">
     <title>show</title>
     <link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/ant-design-vue@1.7.4/dist/antd.min.css">
-    <link rel="stylesheet" href="./style.css">
-    <style>
-        body {
-            background: #4ecbd4;
-            color: #fff;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 
 <body>
@@ -36,11 +39,11 @@
         <a-button @click="changeMode('grid')">grid</a-button> -->
         <div class="content">
             <a-row :gutter="[20,20]">
-                <a-col span="8" v-for="(item,index) in list" :key="item" :xs="{span:24,gutter:[20,40]}" :sm="12" :md="8"
-                    :lg="6" :xl="4">
+                <a-col span="8" v-for="(item,index) in list" :key="item" :xs="{span:24,gutter:[20,40]}" :sm="12" :md="8" :lg="6" :xl="4">
                     <a-card hoverable @click="goDetail(item)" :bodyStyle="{height:'80px'}" v-if="showMode == 'grid'"
                         class="Card" :bordered="false">
                         <a-card-meta :title="item.title"></a-card-meta>
+                        <span v-text="item.description || '   '"></span>
                     </a-card>
                 </a-col>
             </a-row>

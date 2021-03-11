@@ -10,6 +10,16 @@ var listData = [
         "url":"https://my.soulfree.cn/3/"
     },
     {
+        "title":"鼠标-景深跟随",
+        "description":"",
+        "url":"https://my.soulfree.cn/5/"
+    },
+    {
+        "title":"图片加载",
+        "description":"大图加载时从模糊到清晰",
+        "url":"https://my.soulfree.cn/4/"
+    },
+    {
         "title":"我的博客",
         "description":"",
         "url":"https://www.soulfree.cn"
