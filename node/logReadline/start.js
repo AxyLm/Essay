@@ -21,7 +21,7 @@ rl.on('line', (line) => {
             // concatLog = []
 
         }
-        console.log('日志时间：%s] 日志内容 [%s', arr[0], arr[1])
+        console.log('日志时间：%s] 日志内容 [%s', arr[0], arr[1].toString())
     } else {
         if (lineFlag) {
             lineFlag = false

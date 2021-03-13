@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FileView</title>
+    <style>
+        .fv_select{
+            color:red;
+        }
+        #fileView li{
+            border-bottom: 1px solid #e3e3e3;
+        }
+        .selectView{
+            position: absolute;
+            border:2px solid skyblue;
+            background-color: rgba(135, 206, 235,.2);
+        }
+        *{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <ul id='fileView'>
+        <!-- <li class="fv_item">1</li>
+        <li class="fv_item">2</li>
+        <li class="fv_item">3</li>
+        <li class="fv_item">4</li>
+        <li class="fv_item">5</li>
+        <li class="fv_item">6</li>
+        <li class="fv_item">7</li>
+        <li class="fv_item">8</li>
+        <li class="fv_item">9</li>
+        <li class="fv_item">10</li> -->
+    </ul>
+</body>
+</html>
+<script src="./fView.js"></script>
+<script>
+        var fv = new Fview("#fileView");
+        fv.init({
+            mode:1
+        })
+</script>

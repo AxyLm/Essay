@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta name="keywords" content="生成随机密码,拟态玻璃,时钟,博客">
+    <meta name="description" content="一个拟态化的站点">
+    <meta http-equiv="Window-target" content="_top">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta name="robots" content="all">
+    <meta name="author" content="ganlin">
+    <meta http-equiv="expires" content="0">
+    <title>show</title>
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/ant-design-vue@1.7.4/dist/antd.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <div id="app" class="content" style="display: none;" v-show="appstart">
+        <header>
+            <a-col span="24">
+                <span class="title_text">M</span>
+                <span class="title_text">y</span>&nbsp;
+                <span class="title_text">P</span>
+                <span class="title_text">r</span>
+                <span class="title_text">o</span>
+                <span class="title_text">j</span>
+                <span class="title_text">e</span>
+                <span class="title_text">c</span>
+                <span class="title_text">t</span>
+                <!-- <h1 style="margin-bottom: 0;">My Project</h1> -->
+            </a-col>
+        </header>
+        <!-- <a-button @click="changeMode('list')">list</a-button>
+        <a-button @click="changeMode('grid')">grid</a-button> -->
+        <div class="content">
+            <a-row :gutter="[20,20]">
+                <a-col span="8" v-for="(item,index) in list" :key="item" :xs="{span:24,gutter:[20,40]}" :sm="12" :md="8" :lg="6" :xl="4">
+                    <a-card hoverable @click="goDetail(item)" :bodyStyle="{height:'80px'}" v-if="showMode == 'grid'"
+                        class="Card" :bordered="false">
+                        <a-card-meta :title="item.title"></a-card-meta>
+                        <span v-text="item.description || '   '"></span>
+                    </a-card>
+                </a-col>
+            </a-row>
+        </div>
+        <div id="components-back-top-demo-custom">
+            <a-back-top></a-back-top>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="http://cdn.jsdelivr.net/npm/vue"></script>
+<script src="http://cdn.jsdelivr.net/npm/ant-design-vue@1.7.4/dist/antd.min.js"></script>
+<script src="./data.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            appstart: true,
+            list: [],
+            showMode: "grid"
+        },
+        created() {
+            this.list = listData;
+        },
+        methods: {
+            goDetail(item) {
+                window.open(item.url)
+            },
+            changeMode(mode) {
+                if (mode) {
+                    this.showMode = mode
+                } else {
+                    this.showMode = "list"
+                }
+            }
+        },
+    })
+</script>

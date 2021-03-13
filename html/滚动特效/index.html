@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>Document</title>
+
+  <style>
+    #parent {
+
+      width: 800px;
+
+      height: 20px;
+
+      background: #ddd;
+
+      position: relative;
+
+      margin: 10 auto;
+
+    }
+
+    #div1 {
+
+      width: 20px;
+
+      height: 20px;
+
+      background: red;
+
+      position: absolute;
+
+      left: 0;
+
+      top: 0;
+
+    }
+
+    #div2 {
+
+      width: 400px;
+
+      height: 200px;
+
+      border: 1px solid black;
+
+      /* filter:alpha(opacity:0); */
+
+      overflow: hidden;
+
+      position: relative;
+
+    }
+
+    #div3 {
+
+      position: absolute;
+
+      left: 0;
+
+      top: 0;
+
+    }
+    .sc{
+      width: 200px;
+      height:50px;
+      border-bottom: 1px solid red;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div id="parent">
+
+    <div id="div1"></div>
+
+  </div>
+
+  <div id="div2">
+
+    <div id="div3">
+      <div class="sc"></div>
+      <div class="sc"></div>
+      <div class="sc"></div>
+      <div class="sc"></div>
+      <div class="sc"></div>
+      <div class="sc"></div>
+      <div class="sc"></div>
+      <div class="sc"></div>
+      <div class="sc"></div>
+      <div class="sc"></div>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    var parent = document.getElementById('parent');
+
+    var div1 = document.getElementById('div1');
+
+    var div2 = document.getElementById('div2');
+
+    var div3 = document.getElementById('div3');
+
+    var disX = 0;
+
+    var disY = 0;
+
+    //开始移动
+
+    function mouseMove(ev) {
+
+      var eve = window.event || ev;
+
+      var l = 0;
+
+      var t = 0;
+
+      l = eve.clientX - disX;
+
+      t = eve.clientY - disY;
+
+      //滑动范围
+
+      if (l < 0) {
+
+        l = 0;
+
+      } else if (l > parent.offsetWidth - div1.offsetWidth) {
+
+        l = parent.offsetWidth - div1.offsetWidth;
+
+      }
+
+      if (t < 0) {
+
+        t = 0;
+
+      } else if (t > parent.offsetHeight - div1.offsetHeight) {
+
+        t = parent.offsetHeight - div1.offsetHeight;
+
+      }
+
+      div1.style.left = l + "px";
+
+      div1.style.top = t + "px";
+
+      //滚动条来控制其他物体的宽度
+
+      var scale = l / (parent.offsetWidth - div1.offsetWidth);
+
+      document.title = scale;
+
+      div3.style.top = -scale * (div3.offsetHeight - div2.offsetHeight) + "px";
+
+
+
+    }
+
+    //停止移动
+
+    function mouseUp() {
+
+      this.onmousemove = null;
+
+      this.onmouseup = null;
+
+      if (div1.releaseCapture) {
+
+        div.releaseCapture();
+
+      }
+
+    }
+
+
+
+    div1.onmousedown = function (ev) {
+
+      var eve = window.event || ev
+
+      disX = eve.clientX - div1.offsetLeft;
+
+      disY = eve.clientY - div1.offsetTop;
+
+      if (div1.setCapture) {
+
+        div1.onmousemove = mouseMove;
+
+        div1.onmouseup = mouseUp;
+
+        div1.setCapture();
+
+        return false;
+
+      } else {
+
+        document.onmousemove = mouseMove;
+
+        document.onmouseup = mouseUp;
+
+        return false;
+
+      }
+
+    }
+
+  </script>
+
+</body>
+
+</html>

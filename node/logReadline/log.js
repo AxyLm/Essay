@@ -11,7 +11,6 @@ const config = {
             "type": "dateFile",
             "filename": "./logs/spiderLog",
             "pattern":"-yyyy-MM-dd-hh-mm-ss.log",
-            "maxLogSize": 50 * 1024 * 1024,
         }
     },
     "categories": {
