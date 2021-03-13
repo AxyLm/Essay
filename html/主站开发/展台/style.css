@@ -3,6 +3,14 @@
     --shadow-1: #57e3ed;
     --shadow-2: #45b3bb;
     --text-color: #fff;
+    /* --main-bg: #55b9f3;
+    --shadow-1: #62d5ff;
+    --shadow-2: #489dcf;
+    --text-color: #fff; */
+    /* --main-bg: #dca3a3;
+    --shadow-1: #fdbbbb;
+    --shadow-2: #bb8b8b;
+    --text-color: #fff; */
     background: var(--main-bg);
     color: var(--text-color);
 }
@@ -10,6 +18,14 @@
 html, body {
     background-color: var(--main-bg);
     overflow: hidden;
+}
+
+body {
+    overflow-y: auto;
+}
+
+body::-webkit-scrollbar {
+    display: none;
 }
 
 * {
@@ -42,23 +58,44 @@ header {
 }
 
 .Card {
-    background-color: #4ecbd4;
+    background-color: var(--main-bg);
     box-shadow: 3px 3px 6px var(--shadow-2), -3px -3px 6px var(--shadow-1);
     transition: box-shadow 1s ease-out;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    padding-top: 20px;
 }
 
-.ant-card-meta-title {
-    color: var(--text-color);
+.Card .ant-card-cover {
+    margin: 0 20px;
+    width: calc(100% - 40px);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.ant-card-body {
+    padding: 15px;
 }
 
 .Card:hover {
     animation: boxShadowHover 0.2s ease-in;
     background-color: var(--main-bg);
     box-shadow: inset 3px 3px 6px var(--shadow-2), inset -3px -3px 6px var(--shadow-1);
+}
+
+.Card:hover .ant-card-cover, .ant-card-body {
+    transform: scale(0.95);
+}
+
+.Card:hover .ant-card-meta-title {
+    transform: scale(0.95);
+}
+
+.ant-card-meta-title {
+    color: var(--text-color);
+    text-align: center;
 }
 
 .title_text {
@@ -124,7 +161,7 @@ header {
         box-shadow: 3px 3px 6px var(--shadow-2), -3px -3px 6px var(--shadow-1);
     }
     50% {
-        box-shadow: 0px 0px 0px #45b0bb, -0px -0px 0px var(--shadow-1);
+        box-shadow: 0px 0px 0px var(--shadow-2), -0px -0px 0px var(--shadow-1);
     }
     100% {
         box-shadow: inset 3px 3px 6px var(--shadow-2), inset -3px -3px 6px var(--shadow-1);
