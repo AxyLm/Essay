@@ -1,130 +1,160 @@
-﻿<!DOCTYPE HTML>
-<html lang="en-US">
+<!DOCTYPE html>
+<html>
+<!-- 仿 https://isujin.com/ -->
 
 <head>
-	<meta charset="UTF-8">
-	<title>
-	</title>
-	<style type="text/css">
-		html,
-		body {
-			margin: 0;
-			padding: 0;
-			height: 100%;
-			width: 100%;
-			overflow: hidden;
-		}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跟随鼠标</title>
+    <style>
+        body,
+        div,
+        header,
+        footer,
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
 
-		ul,
-		li {
-			margin: 0;
-			padding: 0;
-		}
+        }
+        div{
+            overflow: hidden;
+        }
+        body {
+            overflow-x: hidden;
+        }
 
-		ul {
-			position: relative;
-			width: 100%;
-			height: 100%;
-		}
+        .top_img_box {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-		li {
-			border: 4px solid gray;
-			border-radius: 3px;
-			list-style: none;
-		}
+        .top_img {
+            width: auto;
+            min-width: 120%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate3d(-0, 10px, 0) scale(1.1);
+        }
 
-		img {
-			width: 100%;
-			height: 100%;
-		}
-	</style>
+        @media screen and (max-width:1400px) {
+            .mask svg {
+                opacity: 0;
+            }
+
+            .mask_m {
+                opacity: .3 !important;
+            }
+
+            .mask .text {
+                text-align: center;
+                text-indent: 0em !important;
+            }
+        }
+
+        @media screen and (max-width:600px) {
+            .top_img {
+                transition: all 0.4s ease;
+            }
+        }
+
+        .mask svg,
+        .mask_m,
+        .loading {
+            transition: all 0.4s ease;
+        }
+
+        .mask {
+            position: absolute;
+            height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+
+        }
+
+        .mask .text {
+            position: absolute;
+            width: 100%;
+            top: 40%;
+            color: #e3e3e3;
+            z-index: 10;
+            text-indent: 2em;
+        }
+
+        .mask .text p {
+            font-size: 28px;
+        }
+
+        .mask_m {
+            background-color: rgb(176, 14, 37);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            opacity: 0;
+            z-index: 9;
+        }
+
+        p,
+        div {
+            user-select: none;
+        }
+
+        .loading{
+            position: absolute;
+            top:0;right:0;
+            width:100vw;
+            height: 100vh;
+            z-index: 999;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
 </head>
 
 <body>
-	<ul>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-		<li><img src="i.jpg" alt="" /></li>
-	</ul>
-
-	<script type="text/javascript">
-		window.onload = function () {
-
-			var ul = document.getElementsByTagName('ul')[0];
-			var li = ul.getElementsByTagName('li');
-
-			var data = [];
-
-			for (var i = 0, l = li.length; i < l; i++) {
-
-				var s = li[i].style;
-
-				s.position = 'absolute';
-				s.zIndex = Math.floor(Math.random() * 90) + 10;
-				s.width = s.height = s.zIndex + 'px';
-
-				s.left = Math.floor(Math.random() * (ul.offsetWidth - s.zIndex)) + 'px';
-				s.top = Math.floor(Math.random() * (ul.offsetHeight - s.zIndex)) + 'px';
-
-				s.opacity = s.zIndex / 100;
-				s.filter = 'alpha(opacity=' + s.zIndex + ')';
-				s.alpha = s.zIndex;
-
-				var obj = {
-					e: li[i],
-					l: parseInt(s.left),
-					t: parseInt(s.top),
-					s: parseInt(s.zIndex)
-				}
-				data.push(obj);
-
-			}
-
-
-
-			ul.onmousemove = function (e) {
-
-				for (var j in data) {
-
-					var step = data[j].s * 2;
-
-					var numx = parseInt((ul.offsetWidth / 2 - e.clientX) * step / ul.offsetWidth);
-
-					var numy = parseInt((ul.offsetHeight / 2 - e.clientY) * step / ul.offsetHeight);
-
-					data[j].e.style.left = data[j].l - numx + 'px';
-					data[j].e.style.top = data[j].t - numy + 'px';
-
-					console.log(numx);
-
-				}
-
-			}
-
-
-		}
-	</script>
+    <div class="top_img_box">
+        <img src="./wallhaven-672007-1.png" alt="" srcset="" class="top_img">
+        <div class="mask">
+            <svg viewBox="0 0 2880 1620" height="100%" preserveAspectRatio="xMaxYMax slice">
+                <polygon opacity="0.7" points="2000,1620 0,1620 0,0 600,0 " style="fill: rgb(176, 14, 37);"></polygon>
+            </svg>
+            <div class="text">
+                <p>不要和夏虫语冰，他们的世界没有冬天</p>
+                <div>夏天的虫子活不到冬天，所以他们的世界里只有夏天，所以不管你和它说什么，它都不会相信冬天的存在</div>
+            </div>
+            <div class="mask_m">
+            </div>
+        </div>
+    </div>
+    <div class="loading">
+        <img src="./640.gif" alt="">
+    </div>
 </body>
 
 </html>
+<script>
+    var imgBox = document.querySelector(".top_img_box")
+    
+    var imgDom = document.querySelector(".top_img")
+    imgDom.onload = function(){
+        document.querySelector(".loading").style.opacity = "0"
+        document.querySelector(".loading").style.zIndex = 0
+    }
+    document.querySelector(".top_img_box").onmousemove = function (e) {
+        var imgs = document.querySelector(".top_img")
+        var numx = parseInt((imgBox.offsetWidth / 2 - e.clientX) * 100 / imgBox.offsetWidth)
+        var numy = parseInt((imgBox.offsetHeight / 2 - e.clientY) * 100 / imgBox.offsetHeight)
+        imgs.style.transform = "translate3d(" + (0 - numx) + "px, " + (10 - numy) + "px, 0px)  scale(1.1)"
+    }
+</script>
