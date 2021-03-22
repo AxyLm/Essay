@@ -1,36 +1,43 @@
-import network
-import machine
+import ntptime
 import time
-import os
-sta_if = network.WLAN(network.STA_IF); sta_if.active(True)
-sta_if.scan()                             # Scan for available access points
-sta_if.connect("FAST_29E6", "13703410336") # Connect to an AP
-sta_if.isconnected()                      # Check for successful connection
+import machine
 
+from machine import I2C
+i2c=machine.I2C(-1, sda=machine.Pin(9), scl=machine.Pin(10), freq=400000)
+from ssd1306 import SSD1306_I2C
+oled = SSD1306_I2C(128, 64, i2c)
+ntptime.settime()
+time.sleep(3)
+def gTime():
+    (year, month, mday, hour, minute, second, weekday, yearday) = time.localtime()
+    hour = hour + 8
+    
+    return {
+        "day": (str(year) + '-' + str(month) + '-' + str(mday)),
+        "time": (str(hour) + ':' + str(minute) + ':' + str(second))
+    }
 
-led = machine.Pin(2,machine.Pin.OUT)
-led14 = machine.Pin(14,machine.Pin.OUT)
-led.off()
-led14.off()
-
-print("staring...")
+def show_led():
+    oled.fill(0)
+    oled.text( gTime()["day"] , 25, 0)
+    oled.text( gTime()["time"], 32, 8)
+    oled.show()
 
 while True:
-    led.on()
-    led14.on()
-    time.sleep(0.5)
-    led.off()
-    led14.off()
-    time.sleep(0.5)
-    print("blinking.")
+    show_led()
+    time.sleep(.1)
 
 
 
-def ledc(num,static):
-    ledn = machine.Pin(num,machine.Pin.OUT)
-    if static == 'off':
-        ledn.value(1)
-        print(num,ledn.value() )
-    else:
-        ledn.value(0)
-        print(num,ledn.value() )
+
+def show_bit_image(self,image, x_pos, y_pos, size_x, size_y, inv=False):
+    x = 0
+    y = 0
+    for data in image:
+    for a in range(0, 31):
+        if (data & 1<<a):
+        oled.pixel(x_pos + x, y_pos + y, not inv)
+        x = x + 1
+        if x == size_x:
+        x = 0
+        y = y + 1
