@@ -6,9 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>随机密码</title>
-    <link rel="icon" href="./favicon.ico">
-    <link rel="stylesheet" href="https://oss.soulfree.cn/item/package/bootstrap/4.6.0/bootstrap.min.css">
-    <link rel="stylesheet" href="./btn.css">
+    <link rel="icon"
+        href="https://cdn.jsdelivr.net/gh/AxyLm/Essay/html/%E9%9A%8F%E6%9C%BA%E5%AF%86%E7%A0%81/favicon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha256-T/zFmO5s/0aSwc6ics2KLxlfbewyRz6UNw1s3Ppf5gE=" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/AxyLm/Essay/html/%E9%9A%8F%E6%9C%BA%E5%AF%86%E7%A0%81/btn.min.css">
     <style>
         body,
         div {
@@ -99,7 +102,7 @@
 
 </body>
 
-</html>
+
 <script type="text/javascript">
     var bgs = ["#e6fffb", "#f0f5ff", "#e6f7ff", "#fafafa", "#f5f5f5", "#fff0f6"]
     document.body.style.backgroundColor = bgs[Math.floor(Math.random() * bgs.length)]
@@ -161,6 +164,8 @@
             }
         }
         document.querySelector("#result").value = password
+        document.querySelector("#result").select()
+        document.execCommand("copy")
     }
     document.querySelector(".bubbly-button").addEventListener('click', btnAni, false);
     function btnAni(e) {
@@ -173,3 +178,5 @@
         }, 700);
     }
 </script>
+
+</html>
