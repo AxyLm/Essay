@@ -1,4 +1,4 @@
-var fs = require("fs")
+var fs = require("fs");
 
 // fs.readFile("./duoyun.bmp", function (err, bytesRead) {
 //     if (err) throw err;
@@ -45,18 +45,16 @@ const Hexstring2btye = (str) => {
     return hexA;
 }
 // console.log(Hexstring2btye(str))
-// fs.readFile('./duoyun.bmp','binary',function(err,data){
-//     if(err){
-//         console.log(err)
-//     } else {
-//         const buffer = new Buffer.from(data);
-//         for (const value of buffer.values()) {
-//             console.log(value);
-//         }
-//         console.log('数据读取成功', buffer.toJSON());
-//     }
-// });
+fs.readFile('./雨.BMP',function(err,data){
+    if(err){
+        console.log(err)
+    } else {
+        const buffer = new Buffer.from(data);
+        console.info(buffer.toString("utf16le"))
+        // console.log('数据读取成功', data,(buffer.toString('hex')));
+    }
+});
 
-const buffer = new Buffer.from(str)
-fs.writeFileSync("./a.png",buffer)
-console.log(buffer.toJSON())
+// const buffer = new Buffer.from(str)
+// fs.writeFileSync("./雨.BMP",buffer)
+// console.log(buffer.toJSON())
