@@ -3,10 +3,15 @@
 /**
  * @name 时间格式化
  * @param {String} fmt 时间格式 YYYY年MM月DD日 hh:mm:ss 星期W
- * @param {Number} timestamp 时间戳
+ * @param {Number} timestamp 时间戳：1617940021732 时间：2021-03-23 16:56
  * @return {String} 2021年03月23日 16:56:46 星期二
  */
 function format(fmt, timestamp) {
+    // ios 兼容处理 2021-03-23 16:56 > 2021/03/23 16:56
+    timestamp = Date.parse(timestamp.replace(/-/g,"/"))
+    if(!timestamp){
+        timestamp = new Date(timestamp)
+    }
     const date = timestamp ? new Date(timestamp) : new Date()
     const o = {
         "Y+": date.getFullYear(),
