@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as qiniu from "qiniu";
-
+const cloud = require("./cloud")
 @Injectable()
 export class QiniuService {
     private token: string;
@@ -35,7 +35,27 @@ export class QiniuService {
         return this.configService.get("KODBOX.URL")
     }
 
-    checkToken(token: string): boolean{
-        return ( this.token === token && ( new Date(this.updateTime).getTime() - new Date().getTime()) > 60  )
+    async checkToken(token: string): Promise<any>{
+        const  a = new cloud.Cloud({
+            // resourceAppid: 'wx83c1e009599b1117',
+            // resourceEnv: 'lives', // 资源方云环境 ID
+            env: 'lives-1grzxd6l364d3b9b', // 资源方云环境 ID
+            // identityless: true,
+            // traceUser: true,
+            // secretId:"wx83c1e009599b1117",
+            // secretKey:"f9b8fb216fa18b3afa159d140add3656"
+            
+        })
+          
+        await a.init()
+        const data = await a.callFunction.aggregate().limit(10).skip(0).lookup({
+            from: "footages",
+            localField: 'footages',
+            foreignField: 'id',
+            as: "footageList"
+        }).project({
+            footages: 0
+        }).end()
+        return data //( this.token === token && ( new Date(this.updateTime).getTime() - new Date().getTime()) > 60  )
     }
 }

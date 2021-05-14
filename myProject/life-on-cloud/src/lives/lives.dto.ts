@@ -15,5 +15,17 @@ export class queryByPageDto {
 }
 
 export class addLives {
+  footageList:  object ;
 
+  createTime: string;
+
+  tripStartTime: string;
+
+  tripEndTime: string;
+
+  content: string;
+
+  place: string;
+  @IsNumber()
+  like: number;
 }

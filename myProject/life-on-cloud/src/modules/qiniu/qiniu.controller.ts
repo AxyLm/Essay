@@ -14,7 +14,7 @@ export class QiniuController {
 
     @Post("checkToken")
     checkTokne() {
-        const data = this.qiniu.getQiniuDomain();
+        const data = this.qiniu.checkToken("");
         return data
     }
 }
