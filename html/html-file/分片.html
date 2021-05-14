@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="file">
+    <button>上传</button>
+    <script src="axios.js"></script>
+    <script>
+        let btn = document.getElementsByTagName('button')[0]
+        let input = document.getElementsByTagName('input')[0]
+        var chunkSize = 1024 * 1024 //分片大小，每次1mb
+        let index = 0;
+        btn.onclick = function () {
+            let file = input.files[0]
+            let [fname, fext] = file.name.split('.')
+            let start = 0;
+            upload(0)
+            function upload(index) {
+                console.log(index)
+                start = index * chunkSize
+                //文件上传完合并
+                if (start > file.size) {
+                    axios.post('/merge', { name: file.name }).then(data => { console.log(data) })
+
+                    return;
+                }
+                let formdata = new FormData()
+                let blob = file.slice(start, start + chunkSize)
+                let blobName = `${fname}.${index}.${fext}`;
+                let blobFile = new File([blob], blobName)
+                formdata.append('file', blobFile)
+                axios.post('/upload', formdata).then(data => {
+                    console.log(data)
+                    upload(++index)
+                })
+            }
+        }
+        function blobSlice(blob, startByte, endByte) {
+            if (blob.slice) {
+                return blob.slice(startByte, endByte);
+            }
+            // 兼容firefox
+            if (blob.mozSlice) {
+                return blob.mozSlice(startByte, endByte);
+            }
+            // 兼容webkit
+            if (blob.webkitSlice) {
+                return blob.webkitSlice(startByte, endByte);
+            }
+            return null;
+        }
+    </script>
+</body>
+
+</html>
