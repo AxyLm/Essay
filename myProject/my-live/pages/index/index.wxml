@@ -1,0 +1,22 @@
+<!--pages/index.wxml-->
+<view class="body">
+    <scroll-view scroll-y="true" style="height: 100%;">
+        <block wx:if="{{topBanner}}">
+            <view class="top_banner">
+                <image src="{{topBanner}}" class="img" mode="widthFix"></image>
+            </view>
+        </block>
+        <view wx:for="{{lives}}" class="lives" wx:key="_id">
+            <view class="lives-content">
+                <text  class="lives-content-text">{{item.content}}</text>
+            </view>
+            <view wx:for="{{item.footageList}}" wx:for-item="footage" class="footage-item" wx:key="_id" wx:for-index="footageI">
+                <image src="{{footage.url}}" class="lives-image lives-footage" wx:if="{{footage.showType == 'image'}}" bindtap="imageShow" data-list="{{item.footageList}}" data-index="{{footageI}}"/>
+                <video src="{{footage.url}}" class="lives-video lives-footage" wx:if="{{footage.showType == 'video'}}"></video>
+            </view>
+            <view class="lives-time">
+                <text class="lives-time-text">{{item.createTimes}}</text>
+            </view>
+        </view>
+    </scroll-view>
+</view>
