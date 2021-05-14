@@ -14,6 +14,6 @@ import { MongooseModule } from '@nestjs/mongoose';
         HttpModule
     ],
     providers: [ConfigService],
-    exports:[ConfigService,HttpService]
+    exports:[ConfigService]
 })
 export class GlobalModule { }

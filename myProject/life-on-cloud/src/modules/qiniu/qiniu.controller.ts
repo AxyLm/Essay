@@ -6,15 +6,15 @@ export class QiniuController {
     constructor(
         private qiniu: QiniuService,
     ) { }
-    
-    @Get("/getToken")
-    getToken(): string{
+    @Get("getToken")
+    getToken(){
         const token = this.qiniu.getToken();
         return token
     }
 
     @Post("checkToken")
-    checkTokne(){
-        return ""
+    checkTokne() {
+        const data = this.qiniu.getQiniuDomain();
+        return data
     }
 }

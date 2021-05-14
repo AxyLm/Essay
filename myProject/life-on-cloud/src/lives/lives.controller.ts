@@ -1,4 +1,4 @@
-import { BadRequestException, Body, ClassSerializerInterceptor, Controller, Post, SerializeOptions, UseFilters, UseInterceptors, UsePipes } from '@nestjs/common';
+import { BadRequestException, Body, ClassSerializerInterceptor, Controller, Get, Post, SerializeOptions, UseFilters, UseInterceptors, UsePipes } from '@nestjs/common';
 import { queryByPageDto } from './lives.dto';
 import { ValidationPipe } from "../pipes/page.pipe"
 import { LivesInterceptor } from "./transformer/lives.interceptor"
@@ -28,6 +28,11 @@ export class LivesController {
     } catch (error) {
       return new BadRequestException()
     }
+  }
+
+  @Post("get")
+  get() {
+    return "get"
   }
 
   // @Post("photo")

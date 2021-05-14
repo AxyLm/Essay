@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { QiniuService } from 'src/qiniu/qiniu.service';
+import { QiniuService } from '../qiniu/qiniu.service';
 
 @Injectable()
 export class SyncfileService {

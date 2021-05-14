@@ -1,6 +1,7 @@
 import { KboxModule } from './shard/kodbox/kbox.module';
 import { GlobalModule } from './modules/global.module';
 import { LivesModule } from './lives/lives.module';
+import { QiniuModule } from './modules/qiniu/qiniu.module';
 
 import { Module, HttpModule, Global } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
@@ -17,9 +18,7 @@ import { HttpExceptionFilter } from "./ExceptionFilter/HttpException";
     GlobalModule,
     LivesModule,
     ValidModule,
-    // HttpModule,
-    // ConfigModule,
-    // KodboxModule
+    QiniuModule
   ],
   controllers: [
     AppController

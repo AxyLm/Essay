@@ -15,7 +15,7 @@ export class ResponseInterceptor<T> implements NestInterceptor<T,Response<T>> {
     return next
       .handle()
       .pipe(
-        map(data => ({ data })),
+        map(data => ({ code:200,data:data })),
         // catchError(err => throwError(new BadGatewayException())),
       );
   }

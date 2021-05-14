@@ -8,8 +8,8 @@ import { HttpExceptionFilter } from './ExceptionFilter/HttpException';
 async function run() {
   const app = await NestFactory.create(AppModule);
 
-  // app.useGlobalInterceptors(new ResponseInterceptor())
-  // app.useGlobalPipes(new ValidationPipe())
+  app.useGlobalInterceptors(new ResponseInterceptor())
+  app.useGlobalPipes(new ValidationPipe())
   app.useGlobalFilters(new HttpExceptionFilter());
 
   const configService = app.get(ConfigService);
