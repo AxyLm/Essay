@@ -10,6 +10,7 @@ import { AppController } from './controller/app.controller';
 import { AppService } from './service/app.service';
 import { ValidModule } from "./module/valid.module"
 import { HttpExceptionFilter } from "./ExceptionFilter/HttpException";
+import { WxcloudModule } from './modules/wxcloud/wxcloud.module';
 
 
 @Module({
@@ -18,7 +19,8 @@ import { HttpExceptionFilter } from "./ExceptionFilter/HttpException";
     GlobalModule,
     LivesModule,
     ValidModule,
-    QiniuModule
+    QiniuModule,
+    WxcloudModule
   ],
   controllers: [
     AppController

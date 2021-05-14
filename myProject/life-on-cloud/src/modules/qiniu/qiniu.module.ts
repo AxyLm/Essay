@@ -7,6 +7,7 @@ import { Module } from '@nestjs/common';
     controllers: [
         QiniuController,],
     providers: [
-        QiniuService]
+        QiniuService],
+    exports:[QiniuService]
 })
 export class QiniuModule { }
