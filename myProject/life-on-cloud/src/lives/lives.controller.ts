@@ -15,21 +15,26 @@ export class LivesController {
 
   @Post("list")
   @UseFilters(new HttpExceptionFilter())
-  async queryLivesByPage(@Body(new ValidationPipe()) queryDto: queryByPageDto) {
-    try {
-      const data = (await this.liveService.queryLivesByPage(queryDto)).map(e => {
-        var ent = new PhotoEntity(e.data)
-        return ent
-      })
-      return {
-        code: 200,
-        data,
-        ...queryDto,
-        msg: "success"
-      }
-    } catch (error) {
-      return new BadRequestException()
-    }
+  queryLivesByPage(@Body(new ValidationPipe()) queryDto: queryByPageDto) {
+
+    const data = this.liveService.queryLivesByPage(queryDto)
+    return data
+    // try {
+    //   const data = (await this.liveService.queryLivesByPage(queryDto)).map(e => {
+    //     var ent = new PhotoEntity(e.data)
+    //     return ent
+    //   })
+    //   return {
+    //     code: 200,
+    //     data,
+    //     ...queryDto,
+    //     msg: "success"
+    //   }
+    // } catch (error) {
+    //   return new BadRequestException()
+    // }
+
+
   }
 
   @Post("saveLive")

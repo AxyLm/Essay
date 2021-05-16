@@ -4,11 +4,11 @@ const tcb = require("@cloudbase/node-sdk");
 @Injectable()
 export class WxcloudService {
     private readonly cloud: object;
-    private db = tcb.init({
+    private app = tcb.init({
         secretId: "AKIDkLifPvBCyVmocBUWKsAC4i7HBqFOLBn8",
         secretKey: "80cy4vd7KHyQbWn59xVnpbDbpnY3II5c",
         env: "lives-1grzxd6l364d3b9b"
-    }).database();
+    });
     constructor() { }
     
     async init() {
@@ -33,10 +33,18 @@ export class WxcloudService {
 
     collection(name: string) {
         if (name) {
-            return this.db.collection(name)
+            return this.app.database().collection(name)
         } else {
             return null
         }
+    }
+
+    command() {
+        return this.app.database().command
+    }
+
+    wxApp() {
+        return this.app
     }
 
     async getLives() {

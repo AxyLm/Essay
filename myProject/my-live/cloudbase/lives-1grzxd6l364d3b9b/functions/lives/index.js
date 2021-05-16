@@ -17,7 +17,10 @@ const findLives = function (param) {
     }
     page = (page - 1) * pageSize
     return new Promise((resolve, reject) => {
-        collection.aggregate().limit(pageSize).skip(page).lookup({
+        collection.aggregate().sort({
+            createTime:-1
+        })
+        .limit(pageSize).skip(page).lookup({
             from: "footages",
             localField: 'footages',
             foreignField: 'id',
