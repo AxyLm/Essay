@@ -38,6 +38,7 @@ export class LivesController {
   }
 
   @Post("saveLive")
+  @UseFilters(new HttpExceptionFilter())
   addLives(@Body() addLives: addLives) {
     const data = this.liveService.addLives(addLives)
     return data

@@ -9,6 +9,7 @@ import { WxcloudService } from '../modules/wxcloud/wxcloud.service';
 import { FootageService } from 'src/footages/footage.service';
 import { addLives } from './lives.dto';
 
+import {format} from "../util/timeFormat"
 // import { LivePhotos,photoDocument } from "./schema/photos.schema";
 @Injectable()
 export class LiveService {
@@ -35,7 +36,7 @@ export class LiveService {
         },
       pipeline: $.pipeline().match(
         _.expr(
-          $.in(["$id", "$$order_footages"]),
+          $.in(["$_id", "$$order_footages"]),
         )
         ).sort({
           createTime: -1
@@ -43,6 +44,8 @@ export class LiveService {
         as: "footageList"
   }).project({
       footages: 0
+  }).sort({
+    createTime:-1
   }).end().then(res=>res.data)
       // this.liveModel.find().populate("footageList").limit(pageSize).skip((page - 1) * pageSize);
     return data
@@ -50,9 +53,13 @@ export class LiveService {
 
 
   async addLives(param: addLives) {
-
+    param.footageList.forEach(element => {
+      element.createTime = format("YYYY-MM-DD hh:mm:ss",(new Date()).getTime())
+    });
     const data = await this.footageService.addFootage(param.footageList)
-    param.footageList = data.ids
+    param.footages = data.ids
+    param.createTime = format("YYYY-MM-DD hh:mm:ss", (new Date()).getTime())
+    delete param.footageList
     const mainData = await this.wxcloudService.collection("lives").add(param)
     return mainData
   }

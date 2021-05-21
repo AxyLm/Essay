@@ -5,7 +5,7 @@
     "window": {
         "backgroundTextStyle": "light",
         "navigationBarBackgroundColor": "#fff",
-        "navigationBarTitleText": "My Living",
+        "navigationBarTitleText": "旧游记",
         "navigationBarTextStyle": "black"
     },
     "useExtendedLib": {

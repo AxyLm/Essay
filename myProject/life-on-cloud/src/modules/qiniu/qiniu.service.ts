@@ -6,8 +6,8 @@ export class QiniuService {
     private token: string;
     private updateTime: number = (new Date()).getTime();
     private expires: number = 7200;
-    private readonly accessKey: string = 'YOXpF0XvM_3yVDsz5C-hWwrFE5rtDAUQC3XjBQEG';
-    private readonly secretKey: string = 'CmrhUV2xHf1d8nPCsws9wwm7jKypCPA0lRVm';
+    private readonly accessKey: string = this.configService.get("QINIU.accessKey");
+    private readonly secretKey: string = this.configService.get("QINIU.secretKey");
     constructor(
         private readonly configService:ConfigService
     ){}
@@ -19,7 +19,7 @@ export class QiniuService {
             // 重新生成并返回
             const mac = new qiniu.auth.digest.Mac(this.accessKey, this.secretKey)
             const options = {
-              scope: 'lytton',
+              scope: 'myliving',
               expires: this.expires
             }
             const putPolicy = new qiniu.rs.PutPolicy(options)

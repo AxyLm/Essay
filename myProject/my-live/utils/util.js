@@ -8,7 +8,7 @@ function formaTime(timestemp) {
 
     // 如果本地时间小于变量时间
     if (diffValue <= 0) {
-        return '现在'
+        return '刚刚'
     }
 
     // 计算差异时间的量级
@@ -33,6 +33,7 @@ function formaTime(timestemp) {
             return `${parseInt(i)}${map[i]}前`
         }
     }
+    return "刚刚"
 }
 
 module.exports = {

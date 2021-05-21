@@ -4,7 +4,8 @@ const cloud = require('wx-server-sdk')
 cloud.init({ env: "lives-1grzxd6l364d3b9b" });
 const db = cloud.database();
 const collection = db.collection("lives");
-
+const $ = db.command.aggregate
+const _ = db.command
 
 const findLives = function (param) {
     var pageSize,page;
@@ -22,12 +23,22 @@ const findLives = function (param) {
         })
         .limit(pageSize).skip(page).lookup({
             from: "footages",
-            localField: 'footages',
-            foreignField: 'id',
+            let:{
+              footages:"$footages",
+              source:"$source",
+              tripEndTime:"$tripEndTime",
+            },
+            pipeline: $.pipeline().match(
+              _.expr($.in(["$_id","$$footages"])))
+            .sort({
+              createTime:-1
+            }).done(),
             as: "footageList"
-        }).project({
+          }).project({
             footages: 0
-        }).end().then(res => {
+          }).sort({
+            createTime:-1
+          }).end().then(res => {
             resolve({data:res.list,page,pageSize})
         }).catch(err => {
             reject(err)

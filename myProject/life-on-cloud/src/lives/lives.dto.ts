@@ -15,7 +15,8 @@ export class queryByPageDto {
 }
 
 export class addLives {
-  footageList:  object ;
+  footageList:  Array<footages> ;
+  footages: [];
 
   createTime: string;
 
@@ -28,4 +29,10 @@ export class addLives {
   place: string;
   @IsNumber()
   like: number;
+}
+
+
+export class footages{
+  createTime: string;
+  url: string;
 }
