@@ -8,7 +8,6 @@ import { FootageService } from 'src/footages/footage.service';
 import { liveEntity, FootagesEntity } from './transformer/lives.entity';
 import { ApiTags,ApiOperation } from '@nestjs/swagger';
 
-@Controller()
 @ApiTags('旧游记')
 @Controller("lives")
 export class LivesController {
