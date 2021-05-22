@@ -7,9 +7,10 @@ import { PhotoEntity } from './transformer/photo';
 import * as qs from 'qs';
 import { WxcloudService } from '../modules/wxcloud/wxcloud.service';
 import { FootageService } from 'src/footages/footage.service';
-import { addLives } from './lives.dto';
+import { addLives, queryByPageDto } from './lives.dto';
 
 import {format} from "../util/timeFormat"
+import { liveEntity } from './transformer/lives.entity';
 // import { LivePhotos,photoDocument } from "./schema/photos.schema";
 @Injectable()
 export class LiveService {
@@ -25,11 +26,13 @@ export class LiveService {
     private footageService: FootageService
 
   ) { }
-  async queryLivesByPage(param) {
+  async queryLivesByPage(param):Promise<Array<liveEntity>> {
     const { page, pageSize } = param
     const $ = this.wxcloudService.wxApp().database().command.aggregate
     const _ = this.wxcloudService.wxApp().database().command
-    const data = await this.wxcloudService.wxApp().database().collection("lives").aggregate().limit(pageSize).skip((page - 1) * pageSize).lookup({
+    const lives = await this.wxcloudService.wxApp().database().collection("lives").aggregate().limit(pageSize).skip((page - 1) * pageSize).match({
+      liveStatus: _.eq(10)
+    }).lookup({
       from: "footages",
         let: {
           order_footages: '$footages',
@@ -39,28 +42,45 @@ export class LiveService {
           $.in(["$_id", "$$order_footages"]),
         )
         ).sort({
-          createTime: -1
+          sort: 1
         }).done(),
         as: "footageList"
   }).project({
       footages: 0
   }).sort({
     createTime:-1
-  }).end().then(res=>res.data)
+  }).end().then(res =>
+    res.data
+  )
       // this.liveModel.find().populate("footageList").limit(pageSize).skip((page - 1) * pageSize);
-    return data
+    return lives
   }
 
 
   async addLives(param: addLives) {
-    param.footageList.forEach(element => {
-      element.createTime = format("YYYY-MM-DD hh:mm:ss",(new Date()).getTime())
-    });
-    const data = await this.footageService.addFootage(param.footageList)
-    param.footages = data.ids
+    if (param.footageList.length > 0) {
+      param.footageList.forEach((element,index) => {
+        element.createTime = format("YYYY-MM-DD hh:mm:ss", (new Date()).getTime())
+        element.sort = index
+      });
+      const data = await this.footageService.addFootage(param.footageList)
+      param.footages = data.ids
+    } else{
+      param.footages = []
+    }
     param.createTime = format("YYYY-MM-DD hh:mm:ss", (new Date()).getTime())
     delete param.footageList
     const mainData = await this.wxcloudService.collection("lives").add(param)
     return mainData
+  }
+
+
+  async removeLive(liveId: string) {
+    const now = format("YYYY-MM-DD hh:mm:ss", (new Date()).getTime())
+    const opera = await this.wxcloudService.collection("lives").doc(liveId).update({
+      liveStatus: 4,
+      deleteTime: now
+    })
+    return opera
   }
 }

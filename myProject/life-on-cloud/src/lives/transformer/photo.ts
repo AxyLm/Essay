@@ -16,11 +16,3 @@ export class PhotoEntity {
         Object.assign(this, partial);
     }
 }
-
-export class FootagesEntity {
-    source: string;
-    path: string;
-    createTime: string;
-    updateTime: string;
-    dataStatus: string;
-}
