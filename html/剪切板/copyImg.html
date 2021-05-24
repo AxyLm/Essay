@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <title>copyImg</title>
+    <style type="text/css">
+        .box {
+            width: 500px;
+            height: 300px;
+            border: 1px solid #ddd;
+        }
+
+        .box img {
+            max-width: 480px;
+            max-height: 100%;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box" contenteditable="true" id="testInput">
+    </div>
+    <script type="text/javascript">
+        (function () {
+            var imgReader = function (item) {
+                var blob = item.getAsFile(),
+                    reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = new Image();
+                    img.src = e.target.result;
+                    console.log(img);
+                    document.getElementById('testInput').appendChild(img);
+                };
+                reader.readAsDataURL(blob);
+            };
+
+            document.addEventListener('paste', function (e) {
+                //window.clipboardData.getData("Text") ie下获取黏贴的内容 e.clipboardData.getData("text/plain")火狐谷歌下获取黏贴的内容
+                //alert(e.clipboardData.getData("text/plain") )
+                var clipboardData = e.clipboardData,//谷歌
+                    i = 0,
+                    items, item, types;
+                console.log('0')
+
+                if (clipboardData) {
+                    console.log('1')
+                    items = clipboardData.items;
+                    if (items && items.length) {
+
+                        for (let i = 0; i < items.length; i++) {
+                            imgReader(items[i]);
+
+                        }
+                    }
+                }
+            }, false);
+        })();
+    </script>
+
+
+    </script>
+
+</body>
+
+</html>

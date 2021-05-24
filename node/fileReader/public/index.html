@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+
+<body>
+	<div>
+		<!-- <form action="http://localhost:9999/file/upload" method="post" enctype="multipart/form-data"> -->
+		<input id='file' type="file" name="pic" />
+		<!-- </form> -->
+		<button type="submit" id='btn'>上传</button>
+		<button onclick="sel()">选择</button>
+		<button onclick="uploadFile()">start</button>
+
+	</div>
+</body>
+
+</html>
+<script src="./jquery.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+
+	function sel() {
+		$('#file').click()
+	}
+	$('#btn').click(function () {
+		var files = $('#file')[0]
+		if($('#file')[0].files.length <= 0){
+			alert('请选择files')
+			return
+		}
+		var data = new FormData();
+		data.append('magic_life', $('#file')[0].files[0]);
+
+		console.log($('#file')[0].files)
+		console.log(data);
+
+
+		$.ajax({
+			'url': 'http://localhost:8666/file_agent/upload',
+			'type': 'post',
+			'xhrFields': {
+				withCredentials: false
+			},
+			'contentType': false,
+			'data': data,
+			"processData": false,
+			success: function (res) {
+				console.log(res)
+			},
+			error: function (err) {
+				console.log(err)
+			}
+		});
+	});
+
+</script>

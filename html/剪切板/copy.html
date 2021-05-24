@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <textarea name="" id="editableDiv" cols="30" rows="10"></textarea>
+</body>
+
+</html>
+<script>
+    function handlePaste(e) {
+        let data = (e.clipboardData || window.clipboardData);
+        // console.dir(data);
+        console.log(JSON.stringify(data.items,data.fileList))
+        let items = data.items;
+        let fileList = []; //存储文件数据
+        if (items && items.length) {
+            // 检索剪切板items
+            for (let i = 0; i < items.length; i++) {
+                fileList.push(items[i].getAsFile());
+            }
+        }
+        console.log(fileList)
+    }
+
+    document.getElementById('editableDiv').addEventListener('paste', handlePaste);
+</script>
