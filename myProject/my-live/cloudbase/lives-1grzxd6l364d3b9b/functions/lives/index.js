@@ -20,8 +20,7 @@ const findLives = function (param) {
     return new Promise((resolve, reject) => {
         collection.aggregate().sort({
             createTime:-1
-        })
-        .limit(pageSize).skip(page).lookup({
+        }).skip(page).limit(pageSize).lookup({
             from: "footages",
             let:{
               footages:"$footages",
@@ -31,7 +30,7 @@ const findLives = function (param) {
             pipeline: $.pipeline().match(
               _.expr($.in(["$_id","$$footages"])))
             .sort({
-              createTime:-1
+              sort:1
             }).done(),
             as: "footageList"
           }).project({
@@ -39,7 +38,7 @@ const findLives = function (param) {
           }).sort({
             createTime:-1
           }).end().then(res => {
-            resolve({data:res.list,page,pageSize})
+            resolve({data:res.list,page:param.page,pageSize:param.pageSize})
         }).catch(err => {
             reject(err)
         })

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>旧游记</title>
+    <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/vant@2.12/lib/index.css"
+/>
+    <link rel="shortcut icon" href="https://qn.soulfree.cn/FrwnXLMAcTv7ADN9CLBrrejIQVtA" type="image/x-icon">
+    <style>
+        *::-webkit-scrollbar {
+            display: none;
+        }
+        #app {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            overflow-y: auto;
+            background-color: #eee;
+        }
+    </style>
+    <script>
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <div v-show="ready" style="display:none;width:100%">
+            <!-- <van-sticky>
+                <van-nav-bar :title="titleShow" right-text="" left-text="返回" @click-left="hrefgo('list')">
+                </van-nav-bar>
+            </van-sticky> -->
+            <van-form style="margin-top: 10px;" ref="formInfo" validate-first>
+                <van-cell-group>
+                    <van-field v-model="content" rows="4" autosize placeholder="此刻的想法..." :readonly="viewDisabled" type="textarea" clickable>
+                    </van-field>
+                </van-cell-group>
+
+                <van-field name="uploader" label="">
+                    <template #input>
+                        <van-uploader v-model="fileList" :before-read="beforeUpload" :after-read="fileUpload"
+                            :deletable="!viewDisabled" :show-upload="!viewDisabled"
+                            upload-icon="plus"></van-uploader>
+                    </template>
+                </van-field>
+            </van-form>
+
+            <van-row style="margin: 16px;text-align: center;" :gutter="10">
+                <van-col :span='9'>
+                    <!-- <van-button round type="primary" size="small" block @click="formSave(1)" v-if="!viewDisabled">保存
+                    </van-button> -->
+                </van-col>
+                <van-col :span='6'>
+                    <van-button round type="primary" size="small" block @click="formValidAndSave()" v-if="!viewDisabled">发布
+                    </van-button>
+                </van-col>
+                <van-col :span='9'>
+                </van-col>
+            </van-row>
+        </div>
+    </div>
+</body>
+
+</html>
+<!-- <script src="./v.min.js"></script> -->
+<!-- <script src="./vant.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.12/lib/vant.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="http://res2.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+<script>
+    var option = {
+        el: "#app",
+        data: {
+            ready: false,
+            content: "",
+            fileList: [],
+            viewDisabled: false,
+            uploadUrl: "https://upload-z1.qiniup.com/",
+            qnDomain: "https://qn.soulfree.cn/",
+            baseUrl: "http://192.168.0.101:8033/",
+            qnToken: null,
+        },
+        beforeCreate () {
+        },
+        created() {
+            this.ready = true;
+            this.getQniuToken()
+        },
+        methods: {
+            async getQniuToken() {
+                let token = window.localStorage.getItem("qnToken")
+                if(!token){
+                    const getToken = await axios.get(this.baseUrl + "qiniu/getToken").then(res => res.data)
+                    window.localStorage.setItem("qnToken",getToken.data)
+                    token = getToken.data
+                }
+                this.qnToken = token
+
+                return token
+            },
+            saveSuccess(){
+                var userAgent  = navigator.userAgent
+                if(userAgent.indexOf("WeChat") > -1){
+
+                }
+            },
+            formValidAndSave() {
+                this.$toast.loading({
+                    forbidClick: true,
+                    duration:0
+                });
+                var saveInfo = new Object();
+                saveInfo.content = this.content;
+                saveInfo.liveStatus = 10
+                saveInfo.like = 0
+                saveInfo.footageList = this.fileList.map(e => {
+                    return e.fileInfo
+                })
+                if(!saveInfo.content  && saveInfo.footageList.length == 0){
+                    this.$notify({ type: "warning", message: "总要写点什么， 不是么?" });
+                    this.$toast.clear()
+                    return false
+                }
+                axios.post(this.baseUrl + "lives/saveLive", saveInfo).then(res => {
+                    this.$toast.clear()
+                    if (res.data.code == 200) {
+                        this.$notify({ type: "success", message: "发布成功" });
+                        this.saveSuccess()
+                    } else {
+                        this.$notify({ type: "danger", message: res.msg || "失败" });
+                    }
+                }).catch(err => {
+                    this.$notify({ type: "danger", message: err.msg || "失败!" });
+                    this.$toast.clear()
+                })
+            },
+            formSave() {
+
+            },
+            beforeUpload(file) {
+                if (file.type.indexOf('image/') == -1) {
+                    this.$notify({ type: "danger", message: "文件格式错误" });
+                    return false;
+                }
+                return true;
+            },
+            fileUpload(files, detail) {
+                const _this = this
+                files.status = "uploading"
+                files.message = "上传中..."
+                console.log(files)
+                var index = _this.fileList.length - 1
+                var data = new FormData();
+                let qnToken = this.qnToken
+                if(!qnToken){
+                    qnToken = this.getQniuToken()
+                }
+                window.localStorage.setItem("qnToken",qnToken)
+                data.append('file', files.file);
+                data.append("token", qnToken)
+                axios.post(this.uploadUrl, data).then((res) => {
+                    if (res.status === 200 && res.data.key && res.data.hash) {
+                        console.log(res)
+                        files.status = "done"
+                        files.message = ""
+                        let showType = null;
+                        if (files.file.type.indexOf("image") > -1) {
+                            showType = "image"
+                        }
+
+                        if (files.file.type.indexOf("video") > -1) {
+                            showType = "video"
+                        }
+                        files.fileInfo = {
+                            showType,
+                            url: this.qnDomain + res.data.key,
+                            size: files.file.size
+                        }
+                        _this.$notify({ type: "success", message: "上传成功" });
+                    } else {
+                        throw new Error(res)
+                    }
+                }).catch((data) => {
+                    console.log(data)
+                    window.localStorage.removeItem("qnToken")
+                    this.qnToken = null
+                    files.status = "failed"
+                    files.message = "上传失败"
+                    _this.$notify({ type: "danger", message: "上传失败" });
+                })
+            },
+        },
+    }
+
+    var app = new Vue(option)
+</script>
