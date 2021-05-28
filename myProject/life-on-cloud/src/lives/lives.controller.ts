@@ -1,4 +1,4 @@
-import { BadRequestException, Body, ClassSerializerInterceptor, Controller, Get, Inject, Post, SerializeOptions, UseFilters, UseInterceptors, UsePipes } from '@nestjs/common';
+import { BadRequestException, Body, ClassSerializerInterceptor, Controller, Get, Inject, Post, SerializeOptions, UseFilters, UseGuards, UseInterceptors, UsePipes } from '@nestjs/common';
 import { addLives, queryByPageDto } from './lives.dto';
 import { ValidationPipe } from "../pipes/page.pipe"
 import { LivesInterceptor } from "./transformer/lives.interceptor"
@@ -6,6 +6,7 @@ import { LiveService } from './lives.service';
 import { FootagesEntity, PhotoEntity } from './transformer/photo';
 import { HttpExceptionFilter } from 'src/ExceptionFilter/HttpException';
 import { FootageService } from 'src/footages/footage.service';
+import { AuthGuard } from 'src/modules/system/auth/auth.guard';
 @Controller("lives")
 export class LivesController {
   constructor(
@@ -38,6 +39,7 @@ export class LivesController {
   }
 
   @Post("saveLive")
+  @UseGuards(AuthGuard)
   @UseFilters(new HttpExceptionFilter())
   addLives(@Body() addLives: addLives) {
     const data = this.liveService.addLives(addLives)

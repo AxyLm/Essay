@@ -1,4 +1,4 @@
-import { IsEmpty, IsNotEmpty, IsNumber, IsOptional, IsString, Min } from 'class-validator';
+import { IsArray, IsEmpty, IsNotEmpty, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 import { Exclude, Expose,Transform  } from 'class-transformer';
 
 export class queryByPageDto {
@@ -15,7 +15,8 @@ export class queryByPageDto {
 }
 
 export class addLives {
-  footageList:  Array<footages> ;
+  footageList: Array<footages>;
+  @IsArray()
   footages: [];
 
   createTime: string;

@@ -1,3 +1,5 @@
+import { UserModule } from './modules/system/user/user.module';
+import { AuthModule } from './modules/system/auth/auth.module';
 import { KboxModule } from './shard/kodbox/kbox.module';
 import { GlobalModule } from './modules/global.module';
 import { LivesModule } from './lives/lives.module';
@@ -15,12 +17,15 @@ import { WxcloudModule } from './modules/wxcloud/wxcloud.module';
 
 @Module({
   imports: [
+    UserModule,
+    AuthModule,
+    AuthModule,
     KboxModule,
     GlobalModule,
     LivesModule,
     ValidModule,
     QiniuModule,
-    WxcloudModule
+    WxcloudModule,
   ],
   controllers: [
     AppController
