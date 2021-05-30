@@ -10,7 +10,12 @@ import { MongooseModule } from '@nestjs/mongoose';
             load: [customConfig],
             isGlobal: true,
         }),
-        MongooseModule.forRoot(customConfig().MONGODB.CONNECT,{useNewUrlParser: true,useUnifiedTopology: true}),
+        MongooseModule.forRoot(customConfig().MONGODB.CONNECT, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useCreateIndex: true,
+            useFindAndModify: false
+        }),
         HttpModule
     ],
     providers: [ConfigService],

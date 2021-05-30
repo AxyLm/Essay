@@ -7,19 +7,71 @@ import * as FormData from "form-data"
 import { PassThrough, Writable, Readable } from "stream"
 
 import { AlicloudOssService, UploadedFileMetadata } from 'nestjs-alicloud-oss'
+import path from 'path';
+import { Model } from 'mongoose';
+import { kdFile } from './interface/kdfile.interface';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class KboxService {
-    private accToken:String
+    private token: string;
+    private tokenUpdateTime: number = (new Date()).getTime();
     constructor(
         private httpService: HttpService,
-        private configService: ConfigService
-    ) { }
+        private configService: ConfigService,
 
-    async getAccToken(): Promise<any> {
-        this.accToken = await this.httpService.get("http://cloud.soulfree.cn/?user/index/loginSubmit&name=lifeCloud&password=F520C8S4LPWI").toPromise().then(v => v.data)
+        @InjectModel(kdFile.name)
+        private readonly kdFileModel:Model<kdFile>
+    ) {
+        // this.accToken =  this.getAccToken()
     }
 
+    async getAccToken(): Promise<string> {
+        // 存在token  并且 剩余时间大于60秒时
+        // const ase = new Date().getTime() - new Date(this.tokenUpdateTime).getTime()
+        // if (this.token && ase> 60) {
+        //     return this.token
+        // } else {
+            const token: string = await this.httpService.get("http://192.168.0.106:9634/?user/index/loginSubmit&name=soulfree&password=42zvSs7QKU2Rhyy").toPromise().then(v => {
+                if (v.data.code) {
+                    // this.tokenUpdateTime = (new Date()).getTime()
+                    return v.data.info
+                } else {
+                    return ""
+                }
+            })
+            this.token = token
+            return token
+        // }
+    }
+
+    async getListPath() {
+        const token = await this.getAccToken()
+        const data = await this.httpService.request({
+            url: "http://192.168.0.106:9634/?explorer/list/path",
+            method: "POST",
+            data:qs.stringify( {
+                path: "{source:25}/",
+                page: "1",
+                pageNum: "5000",
+                accessToken: token,
+                API_ROUTE: "explorer/list/path",
+            })
+        }).toPromise().then(res => {
+            // fs.writeFileSync("./res.json",qs.stringify(res.data))
+            return res.data
+        })
+
+        return data
+    }
+
+
+
+    async inserDb(list) {
+        const createdCat = await this.kdFileModel.insertMany(list)
+
+       return createdCat
+    }
     async upload(file): Promise<object>{
         return await {}
         const accToken = await this.httpService.post("http://cloud.soulfree.cn/?user/index/loginSubmit&name=lifeCloud&password=F520C8S4LPWI").toPromise().then(v => v.data.info)

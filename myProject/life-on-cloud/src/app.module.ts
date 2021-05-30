@@ -1,7 +1,11 @@
+import { EmqxModule } from './modules/emqx/emqx.module';
+import { SyncMsgModule } from './syncMsg/syncmsg.module';
+import { GlobalModule } from './modules/global.module';
+
+import { DbModule } from './modules/db/db.module';
 import { UserModule } from './modules/system/user/user.module';
 import { AuthModule } from './modules/system/auth/auth.module';
-import { KboxModule } from './shard/kodbox/kbox.module';
-import { GlobalModule } from './modules/global.module';
+import { KboxModule } from './modules/kbox/kbox.module';
 import { LivesModule } from './lives/lives.module';
 import { QiniuModule } from './modules/qiniu/qiniu.module';
 
@@ -17,12 +21,14 @@ import { WxcloudModule } from './modules/wxcloud/wxcloud.module';
 
 @Module({
   imports: [
+    EmqxModule,
+    SyncMsgModule,
+    DbModule,
     UserModule,
     AuthModule,
-    AuthModule,
-    KboxModule,
     GlobalModule,
     LivesModule,
+    KboxModule,
     ValidModule,
     QiniuModule,
     WxcloudModule,
