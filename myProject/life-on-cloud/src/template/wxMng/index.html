@@ -43,7 +43,7 @@
 
                 <van-field name="uploader" label="">
                     <template #input>
-                        <van-uploader v-model="fileList" :before-read="beforeUpload" :after-read="fileUpload"
+                        <van-uploader v-model="fileList" :before-read="beforeUpload" :after-read="fileUpload" :multiple="true"
                             :deletable="!viewDisabled" :show-upload="!viewDisabled"
                             upload-icon="plus"></van-uploader>
                     </template>
@@ -71,7 +71,7 @@
 <!-- <script src="./vant.min.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.12/lib/vant.min.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/axios@0.21.1/dist/axios.min.js"></script>
 <script src="http://res2.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
 <script>
     var option = {
@@ -83,7 +83,7 @@
             viewDisabled: false,
             uploadUrl: "https://upload-z1.qiniup.com/",
             qnDomain: "https://qn.soulfree.cn/",
-            baseUrl: "http://192.168.0.101:8033/",
+            baseUrl: "https://lives.soulfree.cn/",
             qnToken: null,
         },
         beforeCreate () {
@@ -144,56 +144,75 @@
 
             },
             beforeUpload(file) {
-                if (file.type.indexOf('image/') == -1) {
-                    this.$notify({ type: "danger", message: "文件格式错误" });
-                    return false;
+                var data = []
+                if(typeof file == "object" && !file.length){
+                    data = [file]
+                }else if(typeof file == "array"){
+                    data = file
+                }
+                for (const item of data) {
+                    if (item.type.indexOf('image/') == -1) {
+                        this.$notify({ type: "danger", message: "文件格式错误" });
+                        return false;
+                    }
                 }
                 return true;
             },
-            fileUpload(files, detail) {
+            fileUpload(fileData, detail) {
                 const _this = this
-                files.status = "uploading"
-                files.message = "上传中..."
-                console.log(files)
-                var index = _this.fileList.length - 1
-                var data = new FormData();
                 let qnToken = this.qnToken
                 if(!qnToken){
                     qnToken = this.getQniuToken()
                 }
-                window.localStorage.setItem("qnToken",qnToken)
-                data.append('file', files.file);
-                data.append("token", qnToken)
-                axios.post(this.uploadUrl, data).then((res) => {
-                    if (res.status === 200 && res.data.key && res.data.hash) {
-                        console.log(res)
-                        files.status = "done"
-                        files.message = ""
-                        let showType = null;
-                        if (files.file.type.indexOf("image") > -1) {
-                            showType = "image"
-                        }
-
-                        if (files.file.type.indexOf("video") > -1) {
-                            showType = "video"
-                        }
-                        files.fileInfo = {
-                            showType,
-                            url: this.qnDomain + res.data.key,
-                            size: files.file.size
-                        }
-                        _this.$notify({ type: "success", message: "上传成功" });
-                    } else {
-                        throw new Error(res)
+                var data = []
+                if(fileData.length && fileData.length > 0){
+                    data = fileData
+                }else{
+                    data = [fileData]
+                }
+                for (const i in data) {
+                    let files = fileData[i]
+                    if(data.length == 1){
+                        files = fileData
                     }
-                }).catch((data) => {
-                    console.log(data)
-                    window.localStorage.removeItem("qnToken")
-                    this.qnToken = null
-                    files.status = "failed"
-                    files.message = "上传失败"
-                    _this.$notify({ type: "danger", message: "上传失败" });
-                })
+                    files.status = "uploading"
+                    files.message = "上传中..."
+                    var index = _this.fileList.length - 1
+                    var data = new FormData();
+                    window.localStorage.setItem("qnToken",qnToken)
+                    data.append('file', files.file);
+                    data.append("token", qnToken)
+                    axios.post(this.uploadUrl, data).then((res) => {
+                        if (res.status === 200 && res.data.key && res.data.hash) {
+                            console.log(res)
+                            files.status = "done"
+                            files.message = ""
+                            let showType = null;
+                            if (files.file.type.indexOf("image") > -1) {
+                                showType = "image"
+                            }
+
+                            if (files.file.type.indexOf("video") > -1) {
+                                showType = "video"
+                            }
+                            files.fileInfo = {
+                                showType,
+                                url: this.qnDomain + res.data.key,
+                                size: files.file.size
+                            }
+                            _this.$notify({ type: "success", message: "上传成功" });
+                        } else {
+                            throw new Error(res)
+                        }
+                    }).catch((data) => {
+                        console.log(data)
+                        window.localStorage.removeItem("qnToken")
+                        this.qnToken = null
+                        files.status = "failed"
+                        files.message = "上传失败"
+                        _this.$notify({ type: "danger", message: "上传失败" });
+                    })
+                }
             },
         },
     }
