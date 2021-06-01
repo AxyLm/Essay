@@ -4,6 +4,9 @@ import React, {
 import * as mqtt from "mqtt"
 import { Button, Card, Row, Col, Comment, Tooltip, List, Input, Modal, Image } from 'antd';
 import moment from "moment"
+import BetterScroll from 'better-scroll'
+import BScroll from '@better-scroll/core'
+
 import "./index.css"
 const { TextArea } = Input;
 function MsgRender(props) {
@@ -16,16 +19,16 @@ function MsgRender(props) {
                     itemLayout="horizontal"
                     dataSource={msgList}
                     renderItem={item => (
-                        <li>
+                        <div>
                             <Comment
                                 // actions={item.actions}
                                 author={item.sendAccount}
                                 // avatar={item.avatar}
                                 content={<MsgContent item={item}></MsgContent>}
-                                
+
                                 datetime={item.sendTime}
                             />
-                        </li>
+                        </div>
                     )}
                 />
                 <MsgRender msgList={msgList_bef}></MsgRender>
@@ -41,14 +44,14 @@ function MsgContent(props) {
     const { msgType, content, _id } = props.item
     if (msgType == "3") {
         return (<div>
-            <Image src={ content}/>
-        </div> )
-    }else{
+            <Image src={content} />
+        </div>)
+    } else {
         return (<div>
             {content + " " + (_id.indexOf("before") > -1 ? "发送中" : "已发送")}
-        </div> )
+        </div>)
     }
-    
+
 }
 class Chart extends Component {
     constructor(props) {
@@ -61,7 +64,7 @@ class Chart extends Component {
             sendAccount: "rts",
             visible: false,
             modalImgUrl: null,
-            modalBlob:null
+            modalBlob: null
         }
     }
     componentDidMount = () => {
@@ -74,6 +77,11 @@ class Chart extends Component {
                 this.setState({
                     msgList: res.data
                 })
+
+                const scroll = new BScroll(document.querySelector('.card-u'), {
+                    scrollX: false,  //开启横向滚动
+                    scrollY: true, //关闭竖向滚动
+                  })
             }
         })
     }
@@ -184,9 +192,9 @@ class Chart extends Component {
             var reader = new FileReader();
             reader.onload = function (e) {
                 _this.setState({
-                    modalBlob:blob,
-                    modalImgUrl:e.target.result,
-                    visible:true
+                    modalBlob: blob,
+                    modalImgUrl: e.target.result,
+                    visible: true
                 })
             };
             reader.readAsDataURL(blob);
@@ -223,12 +231,12 @@ class Chart extends Component {
     handleOk = () => {
         this.usendMsg("image")
         this.setState({
-            visible:false
+            visible: false
         })
     }
     handleCancel = () => {
         this.setState({
-            visible:false
+            visible: false
         })
     }
     render() {
@@ -237,22 +245,20 @@ class Chart extends Component {
             <div className="App" onPaste={this.onPaste}>
                 <Row gutter={[16, 16]} justify="center">
                     <Col xs={24} sm={20} xl={12}>
-                        <Card className="card-u">
-                            <div>
+                        <Card>
+                            <div className="card-u">
                                 <MsgRender msgList={msgList} msgList_bef={msgList_bef} />
                             </div>
-                            <div>
-                                <TextArea rows={4} value={content} autoSize={{ minRows: 2 }} onChange={this.onChange} />
-                                <Button onClick={this.usendMsg} disabled={!content}>发送</Button>
-                            </div>
                         </Card>
+                        <div>
+                            <TextArea rows={4} value={content} autoSize={{ minRows: 2 }} onChange={this.onChange} />
+                            <Button onClick={this.usendMsg} disabled={!content}>发送</Button>
+                        </div>
                     </Col>
                 </Row>
                 <Modal title="发送图片" okText="确认" cancelText="取消" visible={visible} onOk={this.handleOk} onCancel={this.handleCancel}>
-                    <Image src={modalImgUrl}/>
+                    <Image src={modalImgUrl} />
                 </Modal>
-                <div class="box" contenteditable="true" id="testInput">
-                </div>
             </div>
         )
     }
