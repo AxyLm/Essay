@@ -1,0 +1,42 @@
+{
+  "package": "com.jiuyouji.module",
+  "name": "旧游记",
+  "versionName": "1.0.1",
+  "versionCode": 1,
+  "icon": "/Common/logo.png",
+  "minPlatformVersion": 1066,
+  "features": [
+    {
+      "name": "system.media"
+    },
+    {
+      "name": "system.image"
+    },
+    {
+      "name": "system.prompt"
+    }
+  ],
+  "permissions": [
+    {
+      "origin": "*"
+    }
+  ],
+  "config": {},
+  "router": {
+    "entry": "Hello",
+    "pages": {
+      "Hello": {
+        "component": "hello"
+      }
+    }
+  },
+  "display": {
+    "pages": {
+      "Hello": {
+        "titleBar": false,
+        "menu": false
+      }
+    }
+  },
+  "versionType": "beta"
+}

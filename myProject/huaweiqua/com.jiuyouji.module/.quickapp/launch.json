@@ -1,0 +1,45 @@
+{
+  "version": "0.2.0",
+  "pageConfigurations": [
+    {
+      "name": "Hello",
+      "id": "Hello",
+      "alias": "首页",
+      "params": [],
+      "path": "/Hello"
+    }
+  ],
+  "configurations": [
+    {
+      "name": "Debug QuickApp on Device",
+      "type": "quickapp",
+      "request": "launch",
+      "device": "${command:quickapp.choose-device}",
+      "cwd": "${workspaceRoot}",
+      "logLevel": "log",
+      "adbPort": 5037,
+      "debugServerPort": 8088,
+      "remoteDebug": true,
+      "elementMode": false
+    },
+    {
+      "name": "Debug Widget Hello on Device",
+      "type": "quickapp",
+      "request": "launch",
+      "device": "${command:quickapp.choose-device}",
+      "cwd": "${workspaceRoot}",
+      "logLevel": "log",
+      "adbPort": 5037,
+      "debugServerPort": 8088,
+      "remoteDebug": true,
+      "elementMode": false,
+      "widgetUri": "Hello",
+      "isRun": false,
+      "autoRun": false,
+      "alias": "首页",
+      "widgetParams": "{}"
+    }
+  ],
+  "currentWidgetUri": "Hello",
+  "currentAlias": "首页"
+}

@@ -1,0 +1,27 @@
+{
+  "package": "com.jiuyouji.wx.module",
+  "name": "旧游记",
+  "versionName": "1.0.0",
+  "versionCode": 1,
+  "minPlatformVersion": 1073,
+  "icon": "assets/logo.png",
+  "type": "webapp",
+  "config": {
+    "logLevel": "log"
+  },
+  "pages": [
+    "pages/index/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "旧游记",
+    "navigationBarTextStyle": "black"
+  },
+  "useExtendedLib": {
+    "weui": true
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "appType": "webapp"
+}

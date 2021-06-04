@@ -1,0 +1,204 @@
+<template>
+  <!-- Only one root node is allowed in template. -->
+  <div class="container">
+    <input class="btn" type="button" value="compressImage" onclick="compressImage" />
+    <input class="btn" type="button" value="getImageInfo" onclick="getImageInfo" />
+    <input class="btn" type="button" value="editImage" onclick="editImage" />
+    <input class="btn" type="button" value="applyOperations" onclick="applyOperations" />
+    <input class="btn" type="button" value="pickColor" onclick="pickColor" />
+    <input class="btn" type="button" value="获取exif信息" onclick="getExifAttributes" />
+    <input class="btn" type="button" value="设置exif信息" onclick="setExifAttributes" />
+    <text class="pickColor" style="background-color: {{pickedColor}}">pickedColor</text>
+    <image class="img" src="{{compressImageUri}}"></image>
+    <image class="img" src="{{editImageUri}}"></image>
+    <image class="img" src="{{applyOperationsImageUri}}"></image>
+  </div>
+</template>
+<style>
+  .container {
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  .img {
+    margin-bottom: 50px;
+    margin-top: 50px;
+  }
+  .btn {
+    width: 300px;
+    height: 80px;
+    text-align: center;
+    margin-bottom: 50px;
+    color: #ffffff;
+    font-size: 30px;
+    background-color: #0faeff;
+  }
+  .pickColor {
+    width: 300px;
+    height: 80px;
+    text-align: center;
+    color: #000000;
+    font-size: 30px;
+    background-color: #0faeff;    
+  }
+</style>
+<script>
+  import image from '@system.image'
+  import prompt from '@system.prompt'
+  module.exports = {
+    data: {
+      imagePath: "/Common/compress.jpg", //replace to your local image path
+      pickColorSrc: "",
+      pickedColor: "#0faeff",
+      compressImageUri: "",
+      editImageUri: "",
+      applyOperationsImageUri: ""
+    },
+    compressImage: function () {
+      var that = this;
+      image.compressImage({
+        uri: "/Common/compress.jpg",  //replace to your local image path
+        ratio: 2,
+        format: "JPEG",
+        success: function (data) {
+          console.log(data.uri);
+          prompt.showToast({
+            message: "success:" + data.uri
+          });
+          that.compressImageUri = data.uri
+        },
+        fail: function (data, code) {
+          console.log("handling fail, code=" + code);
+          prompt.showToast({
+            message: "handling fail, code=" + code + "----data" + data
+          })
+        }
+      })
+    },
+    pickColor: function () {
+      var that = this;
+      that.pickColorSrc = that.imagePath;
+      image.pickColor({
+        uri: that.pickColorSrc,
+        success: function (data) {
+          console.log(data.color);
+          that.pickedColor = data.color;
+        },
+        fail: function (data, code) {
+          console.log("handling fail, code=" + code);
+        }
+      });
+    },
+    getImageInfo: function () {
+      image.getImageInfo({ 
+        uri: "/Common/compress.jpg", //replace to your local image path
+        success: function (data) {
+          console.log("uri:" + data.uri + "\n" + "width:" + data.width + "\n" + "height:" + data.height + "\n" + "size:" + data.size)
+          prompt.showToast({
+            message: "uri:" + data.uri + "\n" + "width:" + data.width + "\n" + "height:" + data.height + "\n" + "size:" + data.size
+          })
+        },
+        fail: function (data, code) {
+          console.log("handling fail, code=" + code);
+          prompt.showToast({
+            message: "code=" + code
+          })
+        }
+      })
+    },
+    editImage: function () {
+      var that = this;
+      image.editImage({
+        uri: "/Common/compress.jpg", //replace to your local image path
+        success: function (data) {
+          console.log(data.uri);
+          that.editImageUri = data.uri;
+        },
+        cancel: function () {
+          console.log("edit cancel");
+          prompt.showToast({
+            message: "edit cancel"
+          })
+        },
+        fail: function (data, code) {
+          console.log("edit fail, code=" + code);
+          prompt.showToast({
+            message: "edit fail, code=" + code
+          })
+        }
+      })
+    },
+    applyOperations() {
+      var that = this;
+      image.applyOperations({
+        uri: "/Common/compress.jpg", //replace to your local image path
+        operations: [
+          {
+            action: 'scale',
+            scaleX: 0.5,
+            scaleY: 0.5
+          },
+          {
+            action: 'crop',
+            width: 200,
+            height: 200
+          },
+          {
+            action: 'rotate',
+            degree: 90,
+          }
+        ],
+        quality: 90,
+        format: 'webp',
+        success: function (data) {
+          console.log(data.uri);
+          that.applyOperationsImageUri = data.uri;
+        },
+        fail: function (data, code) {
+          console.log("applyOperation fail, code=" + code);
+          prompt.showToast({
+            message: "applyOperation fail, code=" + code
+          })
+        }
+      })
+    },
+    getExifAttributes() {
+      image.getExifAttributes({
+        uri: "/Common/compress.jpg", //replace to your local image path
+        success: function (data) {
+          console.log(JSON.stringify(data));
+          prompt.showToast({
+            message: JSON.stringify(data)
+          })
+        },
+        fail: function (data, code) {
+          console.log("applyOperation fail, code=" + code);
+          prompt.showToast({
+            message: "applyOperation fail, code=" + code
+          })
+        }
+      });
+    },
+    setExifAttributes() {
+      image.setExifAttributes({
+        uri: "/Common/compress.jpg", //replace to your local image path
+        attributes: {
+          Model: "iphone"
+        },
+        success: function (data) {
+          console.log("success");
+          prompt.showToast({
+            message: "设置成功"
+          })
+        },
+        fail: function (data, code) {
+          console.log("applyOperation fail, code=" + code);
+          prompt.showToast({
+            message: "applyOperation fail, code=" + code
+          })
+        }
+      });
+    }
+  }
+</script>
