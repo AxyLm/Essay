@@ -17,10 +17,12 @@ import { AppService } from './service/app.service';
 import { ValidModule } from "./module/valid.module"
 import { HttpExceptionFilter } from "./ExceptionFilter/HttpException";
 import { WxcloudModule } from './modules/wxcloud/wxcloud.module';
+import { DictModule } from './modules/dataDict/dict.module';
 
 
 @Module({
   imports: [
+    DictModule,
     EmqxModule,
     SyncMsgModule,
     DbModule,

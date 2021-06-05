@@ -1,0 +1,20 @@
+.app{
+    padding-top: 100px;
+}
+.ant-card-body{
+    max-height: calc(100vh - 100px);
+    overflow-y: scroll;
+}
+.ant-card-body::-webkit-scrollbar{
+    display: none;
+}
+.t-right{
+    text-align: right;
+}
+.msg-body span{
+    margin-bottom: 10px;
+}
+.msg-content{
+    background-color: aquamarine;
+    padding: 2px 10px;
+}

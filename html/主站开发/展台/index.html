@@ -43,7 +43,7 @@
                     :lg="6" :xl="4">
                     <a-card hoverable @click="goDetail(item)" :bodyStyle="{height:'80px'}" v-if="showMode == 'grid'"
                         class="Card" :bordered="false">
-                        <img class="img" slot="cover" :alt="item.title" :src="item.imgUrl" />
+                        <img class="img" slot="cover" :alt="item.title" :src="'https://qn.soulfree.cn'+item.imgUrl+'?imageView2/1/w/1200/h/800/interlace/1/q/49'" />
                         <a-card-meta :title="item.title"></a-card-meta>
                     </a-card>
                 </a-col>

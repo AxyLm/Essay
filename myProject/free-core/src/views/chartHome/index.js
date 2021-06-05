@@ -2,18 +2,35 @@ import React, {
     Component
 } from 'react';
 import * as mqtt from "mqtt"
-import { Button, Card, Row, Col, Comment, Tooltip, List, Input, Modal, Image } from 'antd';
+import { Button, Card, Row, Col, Comment, Tooltip, List, Input, Modal, Image, Avatar } from 'antd';
 import moment from "moment"
-import BetterScroll from 'better-scroll'
-import BScroll from '@better-scroll/core'
-
 import "./index.css"
+
+const { Meta } = Card;
+// List data as an array of strings
+const list = [
+    'Brian Vaughn',
+    // And so on...
+];
 const { TextArea } = Input;
+function MsgItem(props) {
+    const { item } = props
+    return <div>
+        <span>{item.author}</span>
+    </div>
+}
 function MsgRender(props) {
     const { msgList, msgList_bef } = props
     if (msgList && msgList.length > 0) {
         return (
-            <div>
+            <div className="card-u">
+                {/* <List
+                    width={300}
+                    height={300}
+                    rowCount={msgList.length}
+                    rowHeight={20}
+                    rowRenderer={rowRenderer}
+                /> */}
                 <List
                     className="comment-list"
                     itemLayout="horizontal"
@@ -36,22 +53,29 @@ function MsgRender(props) {
         )
     } else {
         return (
-            <div></div>
+            <div className="userSend"></div>
         )
     }
 }
 function MsgContent(props) {
-    const { msgType, content, _id } = props.item
-    if (msgType == "3") {
-        return (<div>
-            <Image src={content} />
-        </div>)
-    } else {
-        return (<div>
-            {content + " " + (_id.indexOf("before") > -1 ? "发送中" : "已发送")}
-        </div>)
-    }
+    const { msgType, content, _id, author, sendAccount } = props.item
+        return <div
+            className="msg-body"
+            style={sendAccount == "admin" ? { textAlign: "right" } : {}}
+        >
+            <span className="msg-user">
+                {sendAccount}
+            </span>
+            <br />
+            {
+                msgType == 3?<Image src={content} />:<span className="msg-content"> {content} </span>
+            }
+        </div>
 
+
+        // (<div>
+        //     {content + " " + (_id.indexOf("before") > -1 ? "发送中" : "")}
+        // </div>)
 }
 class Chart extends Component {
     constructor(props) {
@@ -61,10 +85,11 @@ class Chart extends Component {
             msgList: [],
             content: "",
             connect: null,
-            sendAccount: "rts",
+            sendAccount: "admin",
             visible: false,
             modalImgUrl: null,
-            modalBlob: null
+            modalBlob: null,
+            livesUrl: "http://lives.soulfree.cn"
         }
     }
     componentDidMount = () => {
@@ -72,16 +97,12 @@ class Chart extends Component {
         this.watchMsg()
     }
     async initMsg() {
-        return await this.$axios.post("http://live.frp.soulfree.cn/msg/getMsgs").then(res => {
+        return await this.$axios.post(this.state.livesUrl + "/msg/getMsgs").then(res => {
             if (res.code === 200) {
                 this.setState({
                     msgList: res.data
                 })
 
-                const scroll = new BScroll(document.querySelector('.card-u'), {
-                    scrollX: false,  //开启横向滚动
-                    scrollY: true, //关闭竖向滚动
-                  })
             }
         })
     }
@@ -134,6 +155,8 @@ class Chart extends Component {
         this.setState({
             msgList: msgList
         })
+
+        // document.querySelector(".card-u").scrollTo(0,msgList.length * 40 + 100)
     }
     onChange = ({ target: { value } }) => {
         this.setState({ content: value });
@@ -164,7 +187,7 @@ class Chart extends Component {
                 this.setState({ msgList_bef: msgList_bef })
                 var sendMsg = JSON.parse(JSON.stringify(msgData))
                 delete sendMsg._id
-                this.$axios.post("http://live.frp.soulfree.cn/msg/sendMsg", sendMsg).then(res => {
+                this.$axios.post(this.state.livesUrl + "/msg/sendMsg", sendMsg).then(res => {
                     if (res.code == 200) {
                         for (const index in msgList_bef) {
                             let item = msgList_bef[index]
@@ -246,11 +269,12 @@ class Chart extends Component {
                 <Row gutter={[16, 16]} justify="center">
                     <Col xs={24} sm={20} xl={12}>
                         <Card>
-                            <div className="card-u">
-                                <MsgRender msgList={msgList} msgList_bef={msgList_bef} />
-                            </div>
+                            {msgList.map(e => {
+                                return (<MsgContent item={e} />)
+                            })}
+                            {/* <MsgRender msgList={msgList} msgList_bef={msgList_bef} /> */}
                         </Card>
-                        <div>
+                        <div style={{height:100}}>
                             <TextArea rows={4} value={content} autoSize={{ minRows: 2 }} onChange={this.onChange} />
                             <Button onClick={this.usendMsg} disabled={!content}>发送</Button>
                         </div>

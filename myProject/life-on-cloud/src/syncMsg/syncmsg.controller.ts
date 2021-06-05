@@ -2,7 +2,9 @@ import { Body, Controller, Param, Post } from '@nestjs/common';
 import { sendMsgDto } from './syncmsg.dto';
 import { SyncmsgService } from './syncmsg.service';
 import * as moment from 'moment';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('聊天室')
 @Controller("msg")
 export class SyncmsgController {
 

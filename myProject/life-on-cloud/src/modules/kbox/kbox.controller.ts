@@ -1,7 +1,10 @@
 import { Controller, Get, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import * as moment from 'moment';
-import {KboxService} from "./kbox.service"
+import { KboxService } from "./kbox.service"
+import { ApiTags } from '@nestjs/swagger';
+
+@ApiTags('可道云')
 @Controller("kbox")
 export class KboxController {
     constructor(

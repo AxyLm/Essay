@@ -1,6 +1,8 @@
 import { Controller, Get, Post } from '@nestjs/common';
 import { QiniuService } from './qiniu.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('七牛云')
 @Controller("qiniu")
 export class QiniuController {
     constructor(
