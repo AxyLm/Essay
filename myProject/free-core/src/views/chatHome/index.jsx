@@ -68,7 +68,7 @@ function MsgContent(props) {
             </span>
             <br />
             {
-                msgType == 3?<Image src={content} />:<span className="msg-content"> {content} </span>
+                msgType == 3 ? <span lassName="msg-content msg-content-img" style={{backgroundColor: "aquamarine" }}><Image src={content} /> </span> : <span className="msg-content msg-content-txt"> {content} </span>
             }
         </div>
 
@@ -77,7 +77,7 @@ function MsgContent(props) {
         //     {content + " " + (_id.indexOf("before") > -1 ? "发送中" : "")}
         // </div>)
 }
-class Chart extends Component {
+class ChatHome extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -102,7 +102,7 @@ class Chart extends Component {
                 this.setState({
                     msgList: res.data
                 })
-
+                document.querySelector(".ant-card-body").scrollTop = res.data.length * 100 + 500
             }
         })
     }
@@ -155,8 +155,7 @@ class Chart extends Component {
         this.setState({
             msgList: msgList
         })
-
-        // document.querySelector(".card-u").scrollTo(0,msgList.length * 40 + 100)
+        document.querySelector(".ant-card-body").scrollTop = msgList.length * 100 + 500
     }
     onChange = ({ target: { value } }) => {
         this.setState({ content: value });
@@ -289,4 +288,4 @@ class Chart extends Component {
 }
 
 
-export default (Chart);
+export default ChatHome;
