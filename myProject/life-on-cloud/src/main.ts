@@ -7,7 +7,9 @@ import { HttpExceptionFilter } from './ExceptionFilter/HttpException';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function run() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger:true
+  });
   const configService = app.get(ConfigService);
 
   app.useGlobalInterceptors(new ResponseInterceptor())

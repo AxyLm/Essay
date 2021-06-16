@@ -13,4 +13,8 @@ export class AuthService {
     }
     return null;
   }
+
+  async validateToken(token: string) {
+    return await true
+  }
 }
