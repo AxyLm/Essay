@@ -29,6 +29,22 @@
             transform: translateY(150px);
         }
     </style>
+    <script>
+        var colors = [
+            { bg: "#4ecbd4", text: "#f6f5f7", m1: "#57e3ed", m2: "#45b3bb" },
+            { bg: "#55b9f3", text: "#f6f5f7", m1: "#62d5ff", m2: "#489dcf" },
+            { bg: "#dca3a3", text: "#f6f5f7", m1: "#fdbbbb", m2: "#bb8b8b" },
+            { bg: "#f1707d", text: "#f6f5f7", m1: "#ff8190", m2: "#cd5f6a" },
+            { bg: "#e7dbca", text: "#001f3f", m1: "#fffce8", m2: "#c4baac" },
+            { bg: "#b8f1cc", text: "#001f3f", m1: "#d4ffeb", m2: "#9ccdad" },
+        ]
+        var len = colors.length
+        var color = colors[Math.floor(Math.random() * len) || 0]
+        document.documentElement.style.setProperty('--text-color', color.text)
+        document.documentElement.style.setProperty('--main-bg', color.bg)
+        document.documentElement.style.setProperty('--shadow-1', color.m1)
+        document.documentElement.style.setProperty('--shadow-2', color.m2)
+    </script>
 </head>
 
 <body>
@@ -69,7 +85,7 @@
 
 </html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
-<script src="http://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
 <script src="http://cdn.jsdelivr.net/npm/ant-design-vue@1.7.4/dist/antd.min.js"></script>
 <script src="./data.js"></script>
 <script>
@@ -80,22 +96,6 @@
             list: [],
             showMode: "grid",
             renderIndex: 1
-        },
-        beforeCreate() {
-            var colors = [
-                { bg: "#4ecbd4", text: "#f6f5f7", m1: "#57e3ed", m2: "#45b3bb" },
-                { bg: "#55b9f3", text: "#f6f5f7", m1: "#62d5ff", m2: "#489dcf" },
-                { bg: "#dca3a3", text: "#f6f5f7", m1: "#fdbbbb", m2: "#bb8b8b" },
-                { bg: "#f1707d", text: "#f6f5f7", m1: "#ff8190", m2: "#cd5f6a" },
-                { bg: "#e7dbca", text: "#001f3f", m1: "#fffce8", m2: "#c4baac" },
-                { bg: "#b8f1cc", text: "#001f3f", m1: "#d4ffeb", m2: "#9ccdad" },
-            ]
-            var len = colors.length
-            var color = colors[Math.floor(Math.random() * len) || 0]
-            document.documentElement.style.setProperty('--text-color', color.text)
-            document.documentElement.style.setProperty('--main-bg', color.bg)
-            document.documentElement.style.setProperty('--shadow-1', color.m1)
-            document.documentElement.style.setProperty('--shadow-2', color.m2)
         },
         created() {
             var that = this
