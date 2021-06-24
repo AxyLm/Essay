@@ -17,6 +17,18 @@
     <link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/ant-design-vue@1.7.4/dist/antd.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        .list-enter-active,
+        .list-leave-active {
+            transition: all 1s;
+        }
+
+        .list-enter,
+        .list-leave-to {
+            opacity: 0;
+            transform: translateY(150px);
+        }
+    </style>
 </head>
 
 <body>
@@ -32,21 +44,21 @@
                 <span class="title_text">e</span>
                 <span class="title_text">c</span>
                 <span class="title_text">t</span>
-                <!-- <h1 style="margin-bottom: 0;">My Project</h1> -->
             </a-col>
         </header>
-        <!-- <a-button @click="changeMode('list')">list</a-button>
-        <a-button @click="changeMode('grid')">grid</a-button> -->
         <div class="content">
             <a-row :gutter="[20,20]">
-                <a-col span="8" v-for="(item,index) in list" :key="item" :xs="{span:24,gutter:[20,40]}" :sm="12" :md="8"
-                    :lg="6" :xl="4">
-                    <a-card hoverable @click="goDetail(item)" :bodyStyle="{height:'80px'}" v-if="showMode == 'grid'"
-                        class="Card" :bordered="false">
-                        <img class="img" slot="cover" :alt="item.title" :src="'https://qn.soulfree.cn'+item.imgUrl+'?imageView2/1/w/1200/h/800/interlace/1/q/49'" />
-                        <a-card-meta :title="item.title"></a-card-meta>
-                    </a-card>
-                </a-col>
+                <transition-group name="list" tag="p" v-on:enter="enter">
+                    <a-col span="8" v-for="(item,index) in list" :key="item" :xs="{span:24,gutter:[20,40]}" :sm="12"
+                        :md="8" :lg="6" :xl="4">
+                        <a-card hoverable @click="goDetail(item)" :bodyStyle="{height:'80px'}" v-if="showMode == 'grid'"
+                            class="Card" :bordered="false">
+                            <img class="img" slot="cover" :alt="item.title"
+                                :src="'https://qn.soulfree.cn'+item.imgUrl+'?imageView2/1/w/1200/h/800/interlace/1/q/49'" />
+                            <a-card-meta :title="item.title"></a-card-meta>
+                        </a-card>
+                    </a-col>
+                </transition-group>
             </a-row>
         </div>
         <div id="components-back-top-demo-custom">
@@ -56,6 +68,7 @@
 </body>
 
 </html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
 <script src="http://cdn.jsdelivr.net/npm/vue"></script>
 <script src="http://cdn.jsdelivr.net/npm/ant-design-vue@1.7.4/dist/antd.min.js"></script>
 <script src="./data.js"></script>
@@ -65,7 +78,8 @@
         data: {
             appstart: true,
             list: [],
-            showMode: "grid"
+            showMode: "grid",
+            renderIndex: 1
         },
         beforeCreate() {
             var colors = [
@@ -84,7 +98,12 @@
             document.documentElement.style.setProperty('--shadow-2', color.m2)
         },
         created() {
-            this.list = listData;
+            var that = this
+            setTimeout(function () {
+                for (var i = 0; i < listData.length; i++) {
+                    that.list.push(listData[i])
+                }
+            }, 100);
         },
         methods: {
             goDetail(item) {
@@ -96,7 +115,15 @@
                 } else {
                     this.showMode = "list"
                 }
-            }
+            },
+            enter: function (el, done) {
+                var delay = this.renderIndex * 150
+                this.renderIndex++
+                Velocity(el,
+                    { opacity: 1 },
+                    { duration: delay, complete: done }
+                )
+            },
         },
     })
 </script>
