@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .item{
+            width:300px;
+            height:350px;
+            background-color: rgba(0,0,0,.4);
+            border:1px solid skyblue;
+            margin: 20px 0;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+</body>
+</html>
+<!-- <script src="../package//anime/anime.js"></script> -->
+<script src="https://unpkg.com/scrollreveal@4.0.9/dist/scrollreveal.js"></script>
+<script>
+(function(){
+    ScrollReveal({reset: true}).reveal(".item",{
+        distance: '100px',
+        interval:100,
+        translateX: 10,
+        rotate: {
+            x: 0,
+            y: 0,
+            z: 0,
+        },
+        viewOffset: {
+            top: -999,
+            right: 0,
+            bottom: 0,
+            left: 0,
+        },
+    })
+})();
+</script>
+<script>
+    var sConfig = {
+        // 延迟
+        delay: 0,
+        // 运动时间
+        duration: 600,
+        // 运动函数
+        easing: 'cubic-bezier(0.5, 0, 0, 1)',
+        // 间隔
+        interval: 0,
+        // 距离
+        distance: '0px',
+        // 位置
+        origin: 'bottom',
+        // 透明
+        opacity: 0,
+        // 旋转
+        rotate: {
+            x: 0,
+            y: 0,
+            z: 0,
+        },
+        // 放大
+        scale: 1,
+        cleanup: false,
+        container: document.documentElement,
+        desktop: true,
+        mobile: true,
+        reset: false,
+        useDelay: 'always',
+        viewFactor: 0.0,
+        viewOffset: {
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+        },
+        afterReset: function (el) {},
+        afterReveal: function (el) {},
+        beforeReset: function (el) {},
+        beforeReveal: function (el) {},
+    }
+    // ScrollReveal()
+    // ScrollReveal().reveal('.item');
+
+    // return false;
+    // var elements = document.querySelectorAll('.item');
+    // anime({
+    //     targets: elements,
+    //     translateY: 80,
+    //     translateX: 10,
+    //     loop:true,
+    //     delay: anime.stagger(100) // 每个元素的延迟增加100毫秒。
+    // });
+</script>
