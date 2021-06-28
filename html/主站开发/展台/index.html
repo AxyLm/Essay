@@ -13,18 +13,12 @@
     <meta name="robots" content="all">
     <meta name="author" content="ganlin">
     <meta http-equiv="expires" content="0">
-    <title>show</title>
-    <link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/ant-design-vue@1.7.4/dist/antd.min.css">
+    <title>展</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ant-design-vue@1.7.4/dist/antd.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <style>
-        .list-enter-active,
-        .list-leave-active {
-            transition: all 1s;
-        }
-
-        .list-enter,
-        .list-leave-to {
+        .item{
             opacity: 0;
             transform: translateY(150px);
         }
@@ -66,11 +60,10 @@
             <a-row :gutter="[20,20]">
                 <transition-group name="list" tag="p" v-on:enter="enter">
                     <a-col span="8" v-for="(item,index) in list" :key="item" :xs="{span:24,gutter:[20,40]}" :sm="12"
-                        :md="8" :lg="6" :xl="4">
+                        :md="8" :lg="6" :xl="4" class="item">
                         <a-card hoverable @click="goDetail(item)" :bodyStyle="{height:'80px'}" v-if="showMode == 'grid'"
                             class="Card" :bordered="false">
-                            <img class="img" slot="cover" :alt="item.title"
-                                :src="'https://qn.soulfree.cn'+item.imgUrl+'?imageView2/1/w/1200/h/800/interlace/1/q/49'" />
+                            <img class="img" slot="cover" :alt="item.title" v-lazy="'https://qn.soulfree.cn'+item.imgUrl+'?imageView2/1/w/1200/h/800/interlace/1/q/45'" />
                             <a-card-meta :title="item.title"></a-card-meta>
                         </a-card>
                     </a-col>
@@ -86,9 +79,16 @@
 </html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
-<script src="http://cdn.jsdelivr.net/npm/ant-design-vue@1.7.4/dist/antd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ant-design-vue@1.7.4/dist/antd.min.js"></script>
+<script src="https://unpkg.com/vue-lazyload@1.3.3/vue-lazyload.js"></script>
 <script src="./data.js"></script>
+
 <script>
+    Vue.use(VueLazyload, {
+        preLoad: 1,
+        error: 'https://qn.soulfree.cn/Snipaste_2021-06-27_13-48-51.png?imageView2/1/w/1200/h/800/interlace/1/q/1',
+        loading: 'https://qn.soulfree.cn/Snipaste_2021-06-27_13-48-51.png?imageView2/1/w/1200/h/800/interlace/1/q/1',
+    })
     new Vue({
         el: '#app',
         data: {
@@ -120,7 +120,7 @@
                 var delay = this.renderIndex * 150
                 this.renderIndex++
                 Velocity(el,
-                    { opacity: 1 },
+                    { opacity: 1 , translateY:"0"},
                     { duration: delay, complete: done }
                 )
             },
