@@ -6,7 +6,7 @@
   </Data>
   <Data name="ComboBoxFlashSize.ItemIndex">
     <Type>Integer</Type>
-    <Value>5</Value>
+    <Value>2</Value>
   </Data>
   <Data name="ComboBoxFlashSpeed.ItemIndex">
     <Type>Integer</Type>
@@ -22,7 +22,7 @@
   </Data>
   <Data name="FrameConfigLine1.FilePath">
     <Type>String</Type>
-    <Value>D:\Project\Essay\esp8266\固件\esp8266-20210618-v1.16.bin</Value>
+    <Value>D:\Project\Essay\esp8266\固件\esp8266-1m-20210618-v1.16.bin</Value>
   </Data>
   <Data name="FrameConfigLine1.Offset">
     <Type>String</Type>
