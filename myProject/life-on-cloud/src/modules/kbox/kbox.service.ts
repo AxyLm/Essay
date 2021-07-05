@@ -17,6 +17,7 @@ import { isEmpty } from 'class-validator';
 export class KboxService {
     private token: string;
     private tokenUpdateTime: number = (new Date()).getTime();
+    private kdbodBaseUrl: string = this.configService.get("KODBOX.URL");
     constructor(
         private httpService: HttpService,
         private configService: ConfigService,
@@ -33,7 +34,7 @@ export class KboxService {
         if (this.token && ase> 60) {
             return this.token
         } else {
-            const token: string = await this.httpService.get("http://192.168.0.106:9634/?user/index/loginSubmit&name=soulfree&password=42zvSs7QKU2Rhyy").toPromise().then(v => {
+            const token: string = await this.httpService.get(this.kdbodBaseUrl+"/?user/index/loginSubmit&name=soulfree&password=42zvSs7QKU2Rhyy").toPromise().then(v => {
                 if (v.data.code) {
                     // this.tokenUpdateTime = (new Date()).getTime()
                     return v.data.info
@@ -52,7 +53,7 @@ export class KboxService {
         var fileList = []
         const findByPage = async (page)=> {
             return this.httpService.request({
-                url: "http://192.168.0.106:9634/?explorer/list/path",
+                url: this.kdbodBaseUrl + "/?explorer/list/path",
                 method: "POST",
                 data:qs.stringify( {
                     path: path,
@@ -69,6 +70,8 @@ export class KboxService {
                 } else {
                     return fileList
                 }
+            }).catch(err => {
+                console.log(err);
             })
         }
         await findByPage(1)

@@ -1,3 +1,4 @@
+import { TravelModule } from './api/travel/travel.module';
 import { EmqxModule } from './modules/emqx/emqx.module';
 import { SyncMsgModule } from './syncMsg/syncmsg.module';
 import { GlobalModule } from './modules/global.module';
@@ -22,6 +23,7 @@ import { DictModule } from './modules/dataDict/dict.module';
 
 @Module({
   imports: [
+    TravelModule,
     DictModule,
     EmqxModule,
     SyncMsgModule,

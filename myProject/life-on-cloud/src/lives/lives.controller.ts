@@ -48,6 +48,13 @@ export class LivesController {
   removeLive(@Body() Param) {
     return this.liveService.removeLive(Param.liveId)
   }
+
+  @Post("getMedias")
+  findAllMedia() {
+    return this.liveService
+  }
+
+
   // @Post("photo")
   // @UseInterceptors(ClassSerializerInterceptor)
   // queryPhoto(@Body() queryDto: queryByPageDto) {

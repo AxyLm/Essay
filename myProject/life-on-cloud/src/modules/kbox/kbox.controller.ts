@@ -32,8 +32,8 @@ export class KboxController {
     }
 
 
-    @Get("insertdb")
-    async insert() {
+    @Get("syncImage")
+    async syncImage() {
         const data = await this.kboxService.syncFileImage()
         return data
     }

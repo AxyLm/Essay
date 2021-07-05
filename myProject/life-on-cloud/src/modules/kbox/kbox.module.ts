@@ -20,5 +20,6 @@ import { kdFileScheme } from './scheme/kdFile.scheme';
         KboxController,],
     providers: [
         KboxService,],
+    exports:[KboxService]
 })
 export class KboxModule { }
