@@ -4,8 +4,8 @@ import paho.mqtt.client as mqtt
 import json
 import time
 
-HOST = "frp.soulfree.cn"
-PORT = 7084
+HOST = "192.168.0.106"
+PORT = 1883
 client_id = "py_mqtt_test"
 
 def on_connect(client, userdata, flags, rc):
