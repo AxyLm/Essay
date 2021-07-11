@@ -9,7 +9,7 @@ import * as moment from 'moment';
 import { AlicloudOssService, UploadedFileMetadata } from 'nestjs-alicloud-oss'
 import path from 'path';
 import { Model } from 'mongoose';
-import { kdFile } from './interface/kdfile.interface';
+import { kdFile, kdFileDocument } from './interface/kdfile.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { isEmpty } from 'class-validator';
 
@@ -23,7 +23,7 @@ export class KboxService {
         private configService: ConfigService,
 
         @InjectModel(kdFile.name)
-        private readonly kdFileModel:Model<kdFile>
+        private readonly kdFileModel:Model<kdFileDocument>
     ) {
         // this.accToken =  this.getAccToken()
     }
@@ -45,6 +45,23 @@ export class KboxService {
             this.token = token
             return token
         }
+    }
+
+    async groutDate() {
+        const mod = this.kdFileModel
+        console.log(mod);
+        const data = await this.kdFileModel.aggregate([
+            {
+                $project: {
+                    day: { $substr: [{ "$add": ["$createTimes", 28800000] }, 0, 10] },//时区数据校正，8小时换算成毫秒数为8*60*60*1000=288000后分割成YYYY-MM-DD日期格式便于分组
+                    "path": 1, //设置原有nowPriceL为1，表示结果显示原有字段nowPriceL
+                    "name": 1, //设置原有nowPriceH为1，表示结果显示原有字段nowPriceH
+                    "dayNumber": 1 //每组内有多少个成员
+                },
+             },
+            { "$group": { "_id": "$day" }},
+        ])
+        return data
     }
 
     async getListPath(path:string) {
@@ -91,6 +108,7 @@ export class KboxService {
             let t = moment(item.name, ["YYYYMMDD_HHmmss", "x"])
             if (moment(item.name, ["YYYYMMDD_HHmmss", "x"]).isValid()) {
                 item.createTime = t.format("YYYY-MM-DD HH:mm:ss")
+                item.createTimes = t
             } else {
                 item.createTime = null
                 skipList.push(item)

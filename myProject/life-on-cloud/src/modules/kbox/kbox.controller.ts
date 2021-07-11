@@ -37,4 +37,10 @@ export class KboxController {
         const data = await this.kboxService.syncFileImage()
         return data
     }
+
+
+    @Get("group")
+    groupDate() {
+        return this.kboxService.groutDate()
+    }
 }

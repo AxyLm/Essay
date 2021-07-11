@@ -1,7 +1,9 @@
-import { Prop, raw, Schema } from "@nestjs/mongoose";
+import { Prop, raw, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { ApiProperty } from "@nestjs/swagger";
-import { Document, ObjectId } from 'mongoose';
+import { Date, Document, ObjectId } from 'mongoose';
 
+
+export type kdFileDocument = kdFile & Document;
 @Schema()
 export class kdFile extends Document {
     @Prop()
@@ -49,6 +51,8 @@ export class kdFile extends Document {
     @Prop()
     isFolder: string;
 
+    @Prop({type: Date})
+    createTimes;
     // @Prop()
     // metaInfo: boolean | any;
 
@@ -71,6 +75,7 @@ export class kdFile extends Document {
     // @Prop()
     // fileInfoMore: fileInfoMore
 }
+export const kdFileScheme = SchemaFactory.createForClass(kdFile)
 
 // @Schema()
 // export class createUser extends Document {

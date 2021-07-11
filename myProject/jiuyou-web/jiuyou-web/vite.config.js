@@ -1,10 +1,11 @@
 import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
 import styleImport from 'vite-plugin-style-import';
-import { createVuePlugin } from "vite-plugin-vue2";
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    createVuePlugin(),
+    vue(),
     styleImport({
       libs: [
         {
@@ -18,5 +19,5 @@ export default defineConfig({
   envDir: "./config",
   build: {
     target: "es2015"
-  }
+}
 })
