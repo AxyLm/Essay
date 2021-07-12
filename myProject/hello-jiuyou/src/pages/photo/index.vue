@@ -9,24 +9,19 @@
 				<DynamicScrollerItem
 					:item="item"
 					:active="active"
-          :size-dependencies="[
-            item.count
-          ]"
+					:size-dependencies="[
+						item.count
+					]"
 					:data-index="index" >
 					<van-row>
 						<div class="text">{{ item._id }}</div>
 					</van-row>
 					<van-row :style="{height:Math.ceil(item.count / 3) * 100 +'px'}">
 						<van-col span="8" v-for="photo in item.photos" :key="photos.id" style="overflow:hidden;height:100px;">
-							<van-image
-                loading-icon=""
-                style="width: 100%;"
-                height="100"
+							<img
+								v-lazy="'http://cloud.soulfree.cn/?explorer/index/fileOut&path='+photo.path+ '&type=image&width=250&etag=1625304750&accessToken='+actoken"
+								style="object-fit:cover;"
 								v-if="photo.ext == 'jpg'"
-								class="picture-show"
-								draggable="false"
-								:src="'http://cloud.soulfree.cn/?explorer/index/fileOut&path='+photo.path+ '&type=image&width=250&etag=1625304750&accessToken='+actoken"
-								fit="cover"
 							/>
 						</van-col>
 					</van-row>
@@ -44,13 +39,12 @@
 		data() {
 			return {
 				photos: [],
-        actoken: "62efh5W-7vXVEAqlmqC8nkFVa8SzEvDp_of0JWscQ9VDRrxq40ky7Sz7qjQ-1gVnxjNrnt5X6XvB3f8NEA"
+        		actoken: "62efh5W-7vXVEAqlmqC8nkFVa8SzEvDp_of0JWscQ9VDRrxq40ky7Sz7qjQ-1gVnxjNrnt5X6XvB3f8NEA"
 			};
 		},
 		created() {
 			axios.get("http://127.0.0.1:8033/kbox/group").then((res) => {
 				this.photos = res.data.data;
-				console.log(res.data);
 			});
 		},
 	};

@@ -5,11 +5,13 @@ import VueVirtualScroller from 'vue-virtual-scroller'
 import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 import routes from "./route"
 import { Col, Row, Image as VanImage } from 'vant';
-
+import VueLazyload from 'vue-lazyload'
+ 
 Vue.config.productionTip = false
 
- 
 
+
+Vue.use(VueLazyload)
 Vue.use(VanImage)
 Vue.use(Col)
 Vue.use(Row)
