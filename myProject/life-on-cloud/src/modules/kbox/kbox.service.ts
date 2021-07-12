@@ -47,21 +47,49 @@ export class KboxService {
         }
     }
 
-    async groutDate() {
-        const mod = this.kdFileModel
-        console.log(mod);
+    async groupDay() {
         const data = await this.kdFileModel.aggregate([
             {
                 $project: {
-                    day: { $substr: [{ "$add": ["$createTimes", 28800000] }, 0, 10] },//时区数据校正，8小时换算成毫秒数为8*60*60*1000=288000后分割成YYYY-MM-DD日期格式便于分组
-                    "path": 1, //设置原有nowPriceL为1，表示结果显示原有字段nowPriceL
-                    "name": 1, //设置原有nowPriceH为1，表示结果显示原有字段nowPriceH
-                    "dayNumber": 1 //每组内有多少个成员
+                    // 时区数据校正，8小时换算成毫秒数为8*60*60*1000=288000后分割成YYYY-MM-DD日期格式便于分组
+                    day: {
+                        $substr: [{ "$add": ["$createTimes", 28800000] }, 0, 10]
+                    },
+                    "_id": 1,
+                    "path": 1,
+                    "name": 1,
+                    "ext": 1,
+                    "createTime": 1,
+                    "size": 1,
                 },
-             },
-            { "$group": { "_id": "$day" }},
-        ])
-        return data
+            },
+            {
+                $group: {
+                    _id: "$day",
+                    count: { $sum: 1 },
+                    photos: {
+                        $push: {
+                            "id":"$_id",
+                            "path":"$path",
+                            "name":"$name",
+                            "ext":"$ext",
+                            "createTime":"$createTime",
+                            "size":"$size"
+                        },
+                    }
+                },
+            },
+            {
+                $sort: { _id: -1 }
+            },
+            {
+                $match: {
+                    _id: { $gt: "2001-01-01" },
+                    count: { $gt: 0 } // 该天照片数量大于0
+                }
+            }
+        ]).exec()
+        return {data,count:data.length}
     }
 
     async getListPath(path:string) {

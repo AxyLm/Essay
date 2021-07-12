@@ -41,6 +41,6 @@ export class KboxController {
 
     @Get("group")
     groupDate() {
-        return this.kboxService.groutDate()
+        return this.kboxService.groupDay()
     }
 }
