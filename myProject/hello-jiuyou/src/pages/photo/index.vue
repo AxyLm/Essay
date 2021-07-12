@@ -1,27 +1,31 @@
 <template>
-	<div style="height: 100vh">
+  <div style="height: 100vh">
 		<DynamicScroller
 			:items="photos"
 			:min-item-size="30"
 			class="scroller"
-			key-field="_id" >
+			key-field="id"
+		>
 			<template v-slot="{ item, index, active }">
 				<DynamicScrollerItem
 					:item="item"
 					:active="active"
-					:size-dependencies="[
-						item.count
-					]"
-					:data-index="index" >
+					:size-dependencies="[item.id]"
+					:data-index="index"
+				>
 					<van-row>
-						<div class="text">{{ item._id }}</div>
+						<div class="text">{{ item.id }}</div>
 					</van-row>
-					<van-row :style="{height:Math.ceil(item.count / 3) * 100 +'px'}">
-						<van-col span="8" v-for="photo in item.photos" :key="photos.id" style="overflow:hidden;height:100px;">
+					<van-row >
+						<van-col 
+							span="8"
+							v-for="photo in item.footageList"
+							:key="photos.id"
+							style="overflow: hidden; height: 200px"
+						>
 							<img
-								v-lazy="'http://cloud.soulfree.cn/?explorer/index/fileOut&path='+photo.path+ '&type=image&width=250&etag=1625304750&accessToken='+actoken"
-								style="object-fit:cover;"
-								v-if="photo.ext == 'jpg'"
+								v-lazy="photo.url +'?imageMogr2/auto-orient/thumbnail/500x500>/interlace/1/blur/3x0/quality/20'"
+								style="object-fit: cover"
 							/>
 						</van-col>
 					</van-row>
@@ -34,18 +38,29 @@
 	import axios from "@/utils/axios";
 
 	export default {
-    name:"Photo",
+		name: "Photo",
 		components: {},
 		data() {
 			return {
 				photos: [],
-        		actoken: "62efh5W-7vXVEAqlmqC8nkFVa8SzEvDp_of0JWscQ9VDRrxq40ky7Sz7qjQ-1gVnxjNrnt5X6XvB3f8NEA"
+				actoken:
+					"62efh5W-7vXVEAqlmqC8nkFVa8SzEvDp_of0JWscQ9VDRrxq40ky7Sz7qjQ-1gVnxjNrnt5X6XvB3f8NEA",
 			};
 		},
 		created() {
-			axios.get("http://127.0.0.1:8033/kbox/group").then((res) => {
-				this.photos = res.data.data;
+      axios({
+        url:"http://192.168.0.101:8033/lives/list",
+        method:"POST",
+        data:{
+          page:1,
+          pageSize:1000,
+        }
+      }).then((res) => {
+				this.photos = res.data;
 			});
+			// axios.po("http://192.168.0.101:8033/lives/list").then((res) => {
+			// 	this.photos = res.data.data;
+			// });
 		},
 	};
 </script>

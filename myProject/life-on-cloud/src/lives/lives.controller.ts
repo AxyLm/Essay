@@ -20,7 +20,7 @@ export class LivesController {
   @Post("list")
   @UseInterceptors(ClassSerializerInterceptor)
   @UseFilters(new HttpExceptionFilter())
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   async queryLivesByPage(@Body(new ValidationPipe()) queryDto: queryByPageDto):Promise<Array<liveEntity>>{
 
     const lives = await this.liveService.queryLivesByPage(queryDto)

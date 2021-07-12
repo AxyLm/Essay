@@ -1,53 +1,66 @@
 <template>
-	<div style="height: 100vh">
+  <div style="height: 100vh">
 		<DynamicScroller
 			:items="photos"
 			:min-item-size="30"
 			class="scroller"
-			key-field="_id"
+			key-field="id"
 		>
 			<template v-slot="{ item, index, active }">
 				<DynamicScrollerItem
 					:item="item"
 					:active="active"
-					:size-dependencies="[item.message]"
+					:size-dependencies="[item.id]"
 					:data-index="index"
 				>
-					<van-image
-                        v-if="item.ext == 'jpg'"
-                        class="picture-show"
-                        draggable="false"
-                        :src="'http://192.168.0.106:9634/?explorer/index/fileOut&path='+item.path+
-                        '&type=image&width=250&etag=1625304750&accessToken='+actoken"
-                        width="250"
-                        height="333"
-                        fit="cover"
-                    />
-                    <div v-else>
-                        <span>{{item.name}}</span>
-                    </div>
-					<div class="text">{{ item._id }}</div>
+					<van-row>
+						<div class="text">{{ item.id }}</div>
+					</van-row>
+					<van-row >
+						<van-col 
+							span="8"
+							v-for="photo in item.footageList"
+							:key="photos.id"
+							style="overflow: hidden; height: 200px"
+						>
+							<img
+								v-lazy="photo.url +'?imageMogr2/auto-orient/thumbnail/500x500>/interlace/1/blur/3x0/quality/20'"
+								style="object-fit: cover"
+							/>
+						</van-col>
+					</van-row>
 				</DynamicScrollerItem>
 			</template>
 		</DynamicScroller>
 	</div>
 </template>
 <script>
-	import axios from "../../utils/axios";
+	import axios from "@/utils/axios";
 
 	export default {
+		name: "Photo",
 		components: {},
 		data() {
 			return {
 				photos: [],
-                actoken: "789fqz4uZ_I59O03W7P2483glyyxCbfh8CLS5EspW5DSDX1dCqegc7CWxBSY58wWXQ-nwhKAMJBBuV3W_w"
+				actoken:
+					"62efh5W-7vXVEAqlmqC8nkFVa8SzEvDp_of0JWscQ9VDRrxq40ky7Sz7qjQ-1gVnxjNrnt5X6XvB3f8NEA",
 			};
 		},
 		created() {
-			axios.get("http://127.0.0.1:8033/travel/mediaList").then((res) => {
+      axios({
+        url:"http://192.168.0.101:8033/lives/list",
+        method:"POST",
+        data:{
+          page:1,
+          pageSize:1000,
+        }
+      }).then((res) => {
 				this.photos = res.data;
-				console.log(res.data);
 			});
+			// axios.po("http://192.168.0.101:8033/lives/list").then((res) => {
+			// 	this.photos = res.data.data;
+			// });
 		},
 	};
 </script>
