@@ -1,4 +1,4 @@
-# jiuyou-web
+# Jiuyou-web
 
 ## Project setup
 ```
