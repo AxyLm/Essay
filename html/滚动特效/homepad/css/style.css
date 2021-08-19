@@ -1,0 +1,29 @@
+div, body {
+  padding: 0;
+  margin: 0;
+}
+
+.wraper {
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.top-banner {
+  width: 100vw;
+  height: 100vh;
+  background: url("/src/img/as.jpg") no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center
+}
+
+.wraper-content {
+  /* box-shadow: aqua; */
+  height: 150vh;
+}
+
+.m-card{
+  border-radius: 10px;
+  border: 1px solid #000;
+}
