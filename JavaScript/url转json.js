@@ -19,3 +19,13 @@ function urlToJson(url) {
         return {}
     }
 }
+
+
+
+var t2 = function() {
+    var q = {};
+    location.search.replace(/([^?&=]+)=([^&]+)/g, function (_, k, v) {
+        return q[k] = v
+    });
+    return q;
+}
